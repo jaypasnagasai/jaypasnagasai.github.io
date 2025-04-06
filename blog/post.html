@@ -88,6 +88,11 @@
       border-radius: 4px;
     }
 
+    .loading {
+      font-style: italic;
+      opacity: 0.7;
+    }
+
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -117,7 +122,7 @@
   </header>
 
   <main id="content">
-    <p>Loading post...</p>
+    <p class="loading">Loading post...</p>
   </main>
 
   <script>
@@ -138,7 +143,8 @@
           return response.text();
         })
         .then(markdown => {
-          contentDiv.innerHTML = marked.parse(markdown);
+          const html = marked.parse(markdown);
+          contentDiv.innerHTML = html;
         })
         .catch(error => {
           contentDiv.innerHTML = `<div class="error">Could not load the post. (${error.message})</div>`;
@@ -148,4 +154,5 @@
   </script>
 </body>
 </html>
+
 
