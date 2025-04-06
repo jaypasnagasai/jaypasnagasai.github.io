@@ -19,11 +19,16 @@
     header {
       padding: 20px;
       background-color: #121212;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      border-bottom: 1px solid #1f1f1f;
     }
 
     header h1 {
@@ -92,18 +97,25 @@
         display: inline-block;
         margin-bottom: 6px;
       }
+
+      .container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Pasupulati</h1>
-    <nav>
-      <a href="../index.html">About Me</a>
-      <a href="../pages/research.html">Research</a>
-      <a href="../pages/media.html">Media</a>
-      <a href="blog.html">Blog</a>
-    </nav>
+    <div class="container">
+      <h1>Pasupulati</h1>
+      <nav>
+        <a href="../index.html">About Me</a>
+        <a href="../pages/research.html">Research</a>
+        <a href="../pages/media.html">Media</a>
+        <a href="blog.html">Blog</a>
+      </nav>
+    </div>
   </header>
 
   <main id="content">
