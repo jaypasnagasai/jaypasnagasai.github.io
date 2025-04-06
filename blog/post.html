@@ -121,26 +121,31 @@
   </main>
 
   <script>
+    const contentDiv = document.getElementById('content');
     const urlParams = new URLSearchParams(window.location.search);
-    const file = urlParams.get('file');
+    const fileName = urlParams.get('file');
 
-    if (!file) {
-      document.getElementById('content').innerHTML = '<div class="error">No post specified in URL.</div>';
+    if (!fileName) {
+      contentDiv.innerHTML = '<div class="error">No post specified in the URL.</div>';
     } else {
-      fetch(`posts/${file}`)
-        .then(res => {
-          if (!res.ok) {
-            throw new Error('File not found');
+      const postPath = `posts/${fileName}`;
+
+      fetch(postPath)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`File not found: ${postPath}`);
           }
-          return res.text();
+          return response.text();
         })
         .then(markdown => {
-          document.getElementById('content').innerHTML = marked.parse(markdown);
+          contentDiv.innerHTML = marked.parse(markdown);
         })
-        .catch(err => {
-          document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
+        .catch(error => {
+          contentDiv.innerHTML = `<div class="error">Could not load the post. (${error.message})</div>`;
+          console.error('Post loading error:', error);
         });
     }
   </script>
 </body>
 </html>
+
