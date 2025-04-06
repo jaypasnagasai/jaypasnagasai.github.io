@@ -1,2 +1,2 @@
 
-# Jayanth Pasupulati - ML Engineer
+# Jayanth Pasupulati - Student Researcher
