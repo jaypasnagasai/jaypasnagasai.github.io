@@ -52,7 +52,6 @@
 
     h1, h2, h3 {
       color: #00ffe0;
-      margin-top: 1.4em;
     }
 
     pre {
@@ -76,6 +75,14 @@
       text-decoration: underline;
     }
 
+    .error {
+      color: #ff6ec7;
+      padding: 20px;
+      background-color: #1a1a1a;
+      border: 1px solid #ff6ec7;
+      border-radius: 4px;
+    }
+
     @media (max-width: 768px) {
       nav {
         margin-top: 10px;
@@ -90,7 +97,7 @@
 </head>
 <body>
   <header>
-    <h1>Jayanth Pasupulati</h1>
+    <h1>Pasupulati</h1>
     <nav>
       <a href="../index.html">About Me</a>
       <a href="../pages/research.html">Research</a>
@@ -107,14 +114,23 @@
     const urlParams = new URLSearchParams(window.location.search);
     const file = urlParams.get('file');
 
-    fetch(`posts/${file}`)
-      .then(res => res.text())
-      .then(text => {
-        document.getElementById('content').innerHTML = marked.parse(text);
-      })
-      .catch(err => {
-        document.getElementById('content').innerHTML = `<p>Error loading post.</p>`;
-      });
+    if (!file) {
+      document.getElementById('content').innerHTML = '<div class="error">No post specified in URL.</div>';
+    } else {
+      fetch(`posts/${file}`)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('File not found');
+          }
+          return res.text();
+        })
+        .then(markdown => {
+          document.getElementById('content').innerHTML = marked.parse(markdown);
+        })
+        .catch(err => {
+          document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
+        });
+    }
   </script>
 </body>
 </html>
