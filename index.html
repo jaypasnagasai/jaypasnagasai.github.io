@@ -71,12 +71,17 @@
     }
 
     .contact-info li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 12px;
       font-size: 0.95rem;
     }
 
     .contact-info .icon {
-      margin-right: 8px;
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
     }
 
     .contact-info a {
@@ -138,10 +143,10 @@
   <header>
     <h1>Jayanth Pasupulati</h1>
     <nav>
-      <a href="#"> About Me </a>
-      <a href="#"> Research </a>
-      <a href="#"> Media </a>
-      <a href="#"> Blog </a>
+      <a href="#">About Me</a>
+      <a href="#">Research</a>
+      <a href="#">Media</a>
+      <a href="#">Blog</a>
     </nav>
   </header>
 
@@ -150,22 +155,25 @@
       <img src="images/profile.jpg" alt="Profile picture" class="profile-pic" />
       <p>Student Researcher</p>
       <ul class="contact-info">
-        <li>📍 Antioch, CA</li>
         <li>
-          <a href="mailto:jay662466@gmail.com">📧 Email</a>
+          <span class="icon">📍</span>
+          <span>Antioch, CA</span>
         </li>
         <li>
-          <a href="https://github.com/jaypasnagasai" target="_blank">
-            <img src="images/github.svg" alt="GitHub Logo" width="20" height="20" class="icon" /> GitHub
-          </a>
+          <span class="icon">📧</span>
+          <a href="mailto:jay662466@gmail.com">Email</a>
         </li>
         <li>
-          <a href="https://www.linkedin.com/in/jayanth-pasupulati-916734190/" target="_blank">
-            <img src="images/linkedin-original.svg" alt="LinkedIn Logo" width="20" height="20" class="icon" /> LinkedIn
-          </a>
+          <img src="images/github.svg" alt="GitHub Logo" class="icon" />
+          <a href="https://github.com/jaypasnagasai" target="_blank">GitHub</a>
         </li>
         <li>
-          <a href="resume.pdf" target="_blank">📄 Resume</a>
+          <img src="images/linkedin-original.svg" alt="LinkedIn Logo" class="icon" />
+          <a href="https://www.linkedin.com/in/jayanth-pasupulati-916734190/" target="_blank">LinkedIn</a>
+        </li>
+        <li>
+          <span class="icon">📄</span>
+          <a href="resume.pdf" target="_blank">Resume</a>
         </li>
       </ul>
     </aside>
@@ -173,15 +181,14 @@
     <section class="content">
       <section class="about">
         <h2>About Me</h2>
-        <p> Hi, I’m Jayanth Pasupulati, a Cognitive Science major with a Computational Emphasis and a Computer Science minor at UC Davis, passionate about building ethical, scalable AI systems. My work spans LLM fine-tuning, privacy-preserving AI, and biomedical data analysis—developing real-world AI tools in NLP, generative AI, and multi-agent systems. </p>
+        <p>Hi, I’m Jayanth Pasupulati, a Cognitive Science major with a Computational Emphasis and a Computer Science minor at UC Davis, passionate about building ethical, scalable AI systems. My work spans LLM fine-tuning, privacy-preserving AI, and biomedical data analysis—developing real-world AI tools in NLP, generative AI, and multi-agent systems.</p>
       </section>
 
       <section class="research">
         <h2>My Research</h2>
-        <p> Currently, I’m a student researcher at both the Tagkopoulos Lab at UC Davis and the Natural Language Processing Group at UC Santa Barbara. At Davis, I lead efforts to apply machine learning for improving drug development pipelines, building a vast database of preclinical papers to optimize translational success using advanced AI models. At UCSB, I’m focused on designing and evaluating multi-agent AI systems that prioritize privacy-preserving communication, building a unique dataset of collaborative scenarios and developing intelligent agents that can reason, interact, and safeguard user data in complex environments. </p>
+        <p>Currently, I’m a student researcher at both the Tagkopoulos Lab at UC Davis and the Natural Language Processing Group at UC Santa Barbara. At Davis, I lead efforts to apply machine learning for improving drug development pipelines, building a vast database of preclinical papers to optimize translational success using advanced AI models. At UCSB, I’m focused on designing and evaluating multi-agent AI systems that prioritize privacy-preserving communication, building a unique dataset of collaborative scenarios and developing intelligent agents that can reason, interact, and safeguard user data in complex environments.</p>
       </section>
     </section>
   </main>
 </body>
 </html>
-
