@@ -111,30 +111,20 @@
   </main>
 
   <script>
-    const posts = [
-      {
-        date: "March 2025",
-        title: "How to Make Multi-Agent Systems Understand You",
-        file: "sample.md"
-      },
-      {
-        date: "January 2025",
-        title: "Why Translational Success Rates Matter in AI for Health",
-        file: "2025-01-translational-success.md"
-      },
-      {
-        date: "November 2024",
-        title: "From Prompt to Pipeline: My Workflow with LLMs",
-        file: "2024-11-llm-workflow.md"
-      }
-    ];
-
-    const list = document.getElementById('post-list');
-    posts.forEach(post => {
-      const li = document.createElement('li');
-      li.innerHTML = `<strong>${post.date}:</strong> <em><a href="post.html?file=${post.file}">${post.title}</a></em>`;
-      list.appendChild(li);
-    });
+    fetch('metadata.json')
+      .then(response => response.json())
+      .then(posts => {
+        const list = document.getElementById('post-list');
+        posts.forEach(post => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${post.date}:</strong> <em><a href="post.html?file=${post.file}">${post.title}</a></em>`;
+          list.appendChild(li);
+        });
+      })
+      .catch(error => {
+        document.getElementById('post-list').innerHTML = '<li>Failed to load blog posts.</li>';
+        console.error('Error loading posts:', error);
+      });
   </script>
 </body>
 </html>
