@@ -6,6 +6,7 @@ body {
   color: #333;
 }
 
+/* Header styling */
 header {
   padding: 20px;
   border-bottom: 1px solid #ddd;
@@ -13,29 +14,39 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 header h1 {
   margin: 0;
+  font-size: 1.8rem;
 }
 
 nav a {
   margin: 0 10px;
   text-decoration: none;
   color: #007acc;
+  font-weight: bold;
 }
 
+nav a:hover {
+  color: #005f99;
+}
+
+/* Layout */
 main {
   display: flex;
   max-width: 1000px;
   margin: 20px auto;
   padding: 0 20px;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
+/* Sidebar */
 .sidebar {
   flex: 1;
   max-width: 250px;
-  padding-right: 30px;
 }
 
 .profile-pic {
@@ -47,18 +58,38 @@ main {
 .contact-info {
   list-style: none;
   padding: 0;
+  margin: 0;
   line-height: 1.6;
+}
+
+.contact-info li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.contact-info img.icon {
+  margin-right: 8px;
 }
 
 .contact-info a {
   text-decoration: none;
   color: #007acc;
+  display: flex;
+  align-items: center;
 }
 
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+/* Main content */
 .content {
   flex: 3;
+  min-width: 300px;
 }
 
+/* Sections */
 section {
   margin-bottom: 30px;
 }
@@ -67,9 +98,36 @@ h2 {
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
   margin-bottom: 10px;
+  font-size: 1.4rem;
 }
 
 .news ul {
   list-style: disc;
   padding-left: 20px;
 }
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    max-width: 100%;
+    padding-right: 0;
+  }
+
+  .content {
+    width: 100%;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
+
+  nav a {
+    display: inline-block;
+    margin-bottom: 5px;
+  }
+}
+
