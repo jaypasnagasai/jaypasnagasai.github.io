@@ -118,26 +118,28 @@
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const file = urlParams.get('file');
+    let file = urlParams.get('file');
 
+    // Use a default markdown file if none is specified
     if (!file) {
-      document.getElementById('content').innerHTML = '<div class="error">No post specified in URL.</div>';
-    } else {
-      fetch(`posts/${file}`)
-        .then(res => {
-          if (!res.ok) {
-            throw new Error('File not found');
-          }
-          return res.text();
-        })
-        .then(markdown => {
-          document.getElementById('content').innerHTML = marked.parse(markdown);
-        })
-        .catch(err => {
-          document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
-        });
+      file = 'default.md'; // Make sure posts/default.md exists!
     }
+
+    fetch(`posts/${file}`)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('File not found');
+        }
+        return res.text();
+      })
+      .then(markdown => {
+        document.getElementById('content').innerHTML = marked.parse(markdown);
+      })
+      .catch(err => {
+        document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
+      });
   </script>
 </body>
 </html>
+
 
