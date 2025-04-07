@@ -135,7 +135,23 @@
     <div id="content" class="post-content">
       <p>Loading post content...</p>
     </div>
+  
+  <div class="post-tags" style="margin-top: 20px;">
+    <strong>Tags:</strong> <span id="tag-list"></span>
+  </div>
   </main>
+  <script>
+    const tagList = document.getElementById('tag-list');
+    if (typeof posts !== 'undefined' && Array.isArray(posts)) {
+      const match = posts.find(p => p.file === file || p.file === `posts/${file}`);
+      if (match && match.tags) {
+        tagList.innerHTML = match.tags.map(tag => 
+          `<a href="tag.html?tag=${encodeURIComponent(tag)}" style="color:#ff6ec7; margin-right:10px;">#${tag}</a>`
+        ).join('');
+      }
+    }
+  </script>
+
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -174,4 +190,3 @@
   </script>
 </body>
 </html>
-
