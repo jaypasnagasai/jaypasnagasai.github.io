@@ -1,6 +1,6 @@
 # What I'm Doing Now
 
-Last updated: April 2025
+_Last updated: April 2025_
 
 ## 🧠 Research
 
@@ -26,4 +26,3 @@ I'm currently diving deep into **semantic search for preclinical research**, ref
 - Lo-fi playlists and the occasional Hans Zimmer soundscape.
 
 > This is a living document. Inspired by [Derek Sivers' /now movement](https://nownownow.com/about).
-
