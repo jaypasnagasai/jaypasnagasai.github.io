@@ -61,7 +61,7 @@
 
     .post-date {
       color: #aaaaaa;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       font-size: 0.9rem;
     }
 
@@ -98,8 +98,8 @@
       border-radius: 4px;
     }
 
-    .post-tags {
-      margin-top: 20px;
+    #tag-list {
+      margin: 10px 0;
     }
 
     @media (max-width: 768px) {
@@ -136,17 +136,14 @@
       <div class="post-title">Loading title...</div>
       <div class="post-date"></div>
     </div>
+
+    <div id="tag-list"></div>
+
     <div id="content" class="post-content">
       <p>Loading post content...</p>
     </div>
-
-    <!-- Tags section -->
-    <div class="post-tags">
-      <strong>Tags:</strong> <span id="tag-list"></span>
-    </div>
   </main>
 
-  <!-- Main post loading script -->
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const file = urlParams.get('file');
@@ -176,19 +173,21 @@
           return res.text();
         })
         .then(markdown => {
+          // Extract tags from markdown comment: <!-- TAGS: hobby, mindset -->
+          const tagMatch = markdown.match(/<!--\s*tags\s*:\s*([^\n]+?)\s*-->/i);
+          if (tagMatch) {
+            const tags = tagMatch[1].split(',').map(tag => tag.trim());
+            const tagList = document.getElementById('tag-list');
+            tagList.innerHTML = tags.map(tag =>
+              `<a href="tag.html?tag=${encodeURIComponent(tag)}" style="color:#ff6ec7; margin-right:10px;">#${tag}</a>`
+            ).join('');
+          }
+
           document.getElementById('content').innerHTML = marked.parse(markdown);
         })
         .catch(err => {
           document.getElementById('content').innerHTML = `<div class="error">Could not load the post <code>${file}</code>. (${err.message})</div>`;
         });
-
-      // Tag rendering logic
-      const tagList = document.getElementById('tag-list');
-      if (match && match.tags) {
-        tagList.innerHTML = match.tags.map(tag =>
-          `<a href="tag.html?tag=${encodeURIComponent(tag)}" style="color:#ff6ec7; margin-right:10px;">#${tag}</a>`
-        ).join('');
-      }
     }
   </script>
 </body>
