@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Jayanth Pasupulati</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Fira Code', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f;
+      color: #d8d8d8;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 20px;
+      background-color: #121212;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #00ffe0;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #ff6ec7;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #ffa6e3;
+    }
+
+    main {
+      display: flex;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .sidebar {
+      flex: 1;
+      max-width: 250px;
+    }
+
+    .profile-pic {
+      width: 100%;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      border: 2px solid #00ffe0;
+    }
+
+    .contact-info {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .contact-info li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .content {
+      flex: 3;
+      min-width: 300px;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      color: #00ffe0;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #1f1f1f;
+      padding-bottom: 4px;
+    }
+
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #333;
+      background-color: #222;
+      color: #d8d8d8;
+      font-family: 'Fira Code', sans-serif;
+    }
+
+    form button {
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: none;
+      background-color: #00ffe0;
+      color: #0f0f0f;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+
+    form button:hover {
+      background-color: #00d4b6;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+
+      .sidebar, .content {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jayanth Pasupulati</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pages/research.html">Research</a>
+      <a href="pages/projects.html">Projects</a>
+      <a href="pages/media.html">Media</a>
+      <a href="blog/blog.html">Blog</a>
+    </nav>
+  </header>
+
+  <main>
+    <aside class="sidebar">
+      <img src="images/profile.jpg" alt="Profile picture" class="profile-pic" />
+      <p>Student Researcher</p>
+      <ul class="contact-info">
+        <li>📍 Antioch, CA</li>
+        <li>📧 <a href="mailto:jay662466@gmail.com">Email Me</a></li>
+      </ul>
+    </aside>
+
+    <section class="content">
+      <h2>Contact Me</h2>
+      <form action="#" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="8" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
