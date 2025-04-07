@@ -1,38 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Now - Jayanth Pasupulati</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-      body {
-        font-family: sans-serif;
-        max-width: 700px;
-        margin: 40px auto;
-        padding: 0 20px;
-        line-height: 1.6;
-      }
-      h1, h2, h3 {
-        color: #333;
-      }
-      em {
-        color: #555;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="content">Loading...</div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Now – Jayanth Pasupulati</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #111;
+    }
+    em {
+      color: #555;
+    }
+    a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">Loading <code>now.md</code>...</div>
 
-    <script>
-      fetch('now.md')
-        .then(response => response.text())
-        .then(text => {
-          document.getElementById('content').innerHTML = marked.parse(text);
-        })
-        .catch(error => {
-          document.getElementById('content').innerHTML = 'Failed to load content.';
-          console.error('Error loading now.md:', error);
-        });
-    </script>
-  </body>
+  <script>
+    fetch('now.md')
+      .then(response => {
+        if (!response.ok) throw new Error("File not found");
+        return response.text();
+      })
+      .then(text => {
+        document.getElementById('content').innerHTML = marked.parse(text);
+      })
+      .catch(error => {
+        document.getElementById('content').innerHTML = `
+          <p><strong>Error:</strong> Could not load <code>now.md</code>.</p>
+          <p>Make sure the file exists at <code>/now/now.md</code> and is accessible via GitHub Pages.</p>
+        `;
+        console.error(error);
+      });
+  </script>
+</body>
 </html>
+
