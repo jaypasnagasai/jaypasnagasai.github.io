@@ -106,25 +106,8 @@
     <ul id="post-list"></ul>
   </main>
 
+  <script src="metadata.js"></script>
   <script>
-    const posts = [
-      {
-        date: "March 2025",
-        title: "How to Make Multi-Agent Systems Understand You",
-        file: "sample.md"
-      },
-      {
-        date: "January 2025",
-        title: "Why Translational Success Rates Matter in AI for Health",
-        file: "2025-01-translational-success.md"
-      },
-      {
-        date: "November 2024",
-        title: "From Prompt to Pipeline: My Workflow with LLMs",
-        file: "2024-11-llm-workflow.md"
-      }
-    ];
-
     const list = document.getElementById('post-list');
     posts.forEach(post => {
       const li = document.createElement('li');
