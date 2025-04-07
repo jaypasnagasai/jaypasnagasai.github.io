@@ -62,13 +62,13 @@
     </nav>
   </header>
   <main>
-    <h2 id="tag-title">Tag: </h2>
+    <h2 id="tag-title"></h2>
     <ul id="tag-posts"></ul>
   </main>
   <script>
     const params = new URLSearchParams(window.location.search);
     const tag = params.get("tag");
-    document.getElementById("tag-title").textContent = `Tag: ${tag}`;
+    document.getElementById("tag-title").textContent = tag;
     const container = document.getElementById("tag-posts");
     const filtered = posts.filter(post => post.tags?.includes(tag));
     if (filtered.length === 0) {
