@@ -147,11 +147,17 @@
   </main>
 
   <script>
-    const file = "first.md"; // Hardcoded instead of using ?file= param
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file');
+
+    if (!file) {
+      document.getElementById('content').innerHTML = `<div class="error">No file specified. Use <code>?file=yourfile.md</code> in the URL.</div>`;
+      throw new Error("No file parameter provided");
+    }
+
     let title = file.replace(/[-_]/g, ' ').replace(/\.md$/, '').replace(/\b\w/g, l => l.toUpperCase());
     let date = "";
 
-    // Try to find metadata match
     let match = null;
     if (typeof posts !== 'undefined' && Array.isArray(posts)) {
       match = posts.find(p => p.file === `posts/${file}` || p.file === file);
@@ -176,7 +182,6 @@
         document.getElementById('content').innerHTML = `<div class="error">Could not load the post <code>${file}</code>. (${err.message})</div>`;
       });
 
-    // Tag rendering logic
     const tagList = document.getElementById('tag-list');
     if (match && match.tags) {
       tagList.innerHTML = match.tags.map(tag =>
@@ -186,4 +191,5 @@
   </script>
 </body>
 </html>
+
 
