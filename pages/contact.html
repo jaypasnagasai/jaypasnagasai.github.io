@@ -78,9 +78,32 @@
       font-size: 0.95rem;
     }
 
+    .contact-info .icon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .contact-info a {
+      text-decoration: none;
+      color: #00ffe0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+    }
+
+    .contact-info a:hover {
+      color: #8affff;
+    }
+
     .content {
       flex: 3;
       min-width: 300px;
+    }
+
+    section {
+      margin-bottom: 40px;
     }
 
     h2 {
@@ -91,8 +114,7 @@
       padding-bottom: 4px;
     }
 
-    form input,
-    form textarea {
+    form input, form textarea {
       width: 100%;
       padding: 10px;
       margin-bottom: 15px;
@@ -126,6 +148,15 @@
       .sidebar, .content {
         max-width: 100%;
       }
+
+      nav {
+        margin-top: 10px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin-bottom: 6px;
+      }
     }
   </style>
 </head>
@@ -133,33 +164,35 @@
   <header>
     <h1>Jayanth Pasupulati</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="pages/research.html">Research</a>
-      <a href="pages/projects.html">Projects</a>
-      <a href="pages/media.html">Media</a>
-      <a href="blog/blog.html">Blog</a>
+      <a href="../index.html">About Me</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html">Projects</a>
+      <a href="media.html">Media</a>
+      <a href="../blog/blog.html">Blog</a>
     </nav>
   </header>
 
   <main>
     <aside class="sidebar">
-      <img src="images/profile.jpg" alt="Profile picture" class="profile-pic" />
+      <img src="../images/profile.jpg" alt="Profile picture" class="profile-pic" />
       <p>Student Researcher</p>
       <ul class="contact-info">
-        <li>📍 Antioch, CA</li>
-        <li>📧 <a href="mailto:jay662466@gmail.com">Email Me</a></li>
+        <li><span class="icon">📍</span>Antioch, CA</li>
+        <li><span class="icon">📧</span><a href="mailto:jay662466@gmail.com">Email</a></li>
+        <li><span class="icon">🐱‍💻</span><a href="https://github.com/jaypasnagasai" target="_blank">GitHub</a></li>
       </ul>
     </aside>
 
     <section class="content">
       <h2>Contact Me</h2>
-      <form action="#" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" rows="8" placeholder="Your Message" required></textarea>
+      <form>
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea rows="6" placeholder="Your Message" required></textarea>
         <button type="submit">Send Message</button>
       </form>
     </section>
   </main>
 </body>
 </html>
+
