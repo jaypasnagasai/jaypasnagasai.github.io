@@ -100,15 +100,13 @@
     const list = document.getElementById('post-list');
     posts.forEach(post => {
       const li = document.createElement('li');
-      const tagsHTML = post.tags?.map(tag => 
-        `<a href="tag.html?tag=${encodeURIComponent(tag)}" style="margin-left: 10px; font-size: 0.85em; color: #ff6ec7;">#${tag}</a>`
-      ).join(' ') || '';
-      li.innerHTML = `<strong>${post.date}:</strong> <em><a href="post.html?file=${post.file}">${post.title}</a></em> ${tagsHTML}`;
+      li.innerHTML = `<strong>${post.date}:</strong> <em><a href="post.html?file=${post.file}">${post.title}</a></em>`;
       list.appendChild(li);
     });
   </script>
 </body>
 </html>
+
 
 
 
