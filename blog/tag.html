@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tag - Jayanth Pasupulati</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <script src="metadata.js"></script>
+  <style>
+    body {
+      font-family: 'Fira Code', monospace;
+      background-color: #0f0f0f;
+      color: #d8d8d8;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      padding: 20px;
+      background-color: #121212;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #1f1f1f;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #00ffe0;
+    }
+    nav a {
+      margin: 0 10px;
+      color: #ff6ec7;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      color: #00ffe0;
+    }
+    a {
+      color: #8affff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jayanth Pasupulati</h1>
+    <nav>
+      <a href="../index.html">About Me</a>
+      <a href="../pages/research.html">Research</a>
+      <a href="../pages/projects.html">Projects</a>
+      <a href="../pages/media.html">Media</a>
+      <a href="blog.html">Blog</a>
+    </nav>
+  </header>
+  <main>
+    <h2 id="tag-title">Tag: </h2>
+    <ul id="tag-posts"></ul>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const tag = params.get("tag");
+    document.getElementById("tag-title").textContent = `Tag: ${tag}`;
+    const container = document.getElementById("tag-posts");
+    const filtered = posts.filter(post => post.tags?.includes(tag));
+    if (filtered.length === 0) {
+      container.innerHTML = "<li>No posts found for this tag.</li>";
+    } else {
+      filtered.forEach(post => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${post.date}:</strong> <a href="post.html?file=${post.file}">${post.title}</a>`;
+        container.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
