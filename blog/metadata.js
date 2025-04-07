@@ -1,7 +1,7 @@
 const posts = [
   {
-    date: "March 2025",
-    title: "Sample",
-    file: "sample.md"
+    date: "06 APRIL 2024",
+    title: "FIRST",
+    file: "04-06-first.md"
   }
 ];
