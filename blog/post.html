@@ -6,6 +6,7 @@
   <title>Post - Jayanth Pasupulati</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="metadata.js"></script>
   <style>
     body {
       font-family: 'Fira Code', sans-serif;
@@ -50,18 +51,32 @@
       padding: 0 20px;
     }
 
-    h1, h2, h3 {
+    .post-title {
+      font-size: 1.3rem;
+      color: #00ffe0;
+      margin-bottom: 4px;
+      border-bottom: 1px solid #1f1f1f;
+      padding-bottom: 4px;
+    }
+
+    .post-date {
+      color: #aaaaaa;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+
+    .post-content h1, .post-content h2, .post-content h3 {
       color: #00ffe0;
     }
 
-    pre {
+    .post-content pre {
       background-color: #1f1f1f;
       padding: 10px;
       overflow-x: auto;
       border-radius: 6px;
     }
 
-    code {
+    .post-content code {
       font-family: 'Fira Code', monospace;
       color: #ffb86c;
     }
@@ -112,34 +127,51 @@
     </nav>
   </header>
 
-  <main id="content">
-    <p>Loading post...</p>
+  <main>
+    <div id="post-header">
+      <div class="post-title">Loading title...</div>
+      <div class="post-date"></div>
+    </div>
+    <div id="content" class="post-content">
+      <p>Loading post content...</p>
+    </div>
   </main>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    let file = urlParams.get('file');
+    const file = urlParams.get('file');
 
-    // Use a default markdown file if none is specified
     if (!file) {
-      file = 'default.md'; // Make sure posts/default.md exists!
-    }
+      document.getElementById('content').innerHTML = '<div class="error">No post specified in URL.</div>';
+    } else {
+      // fallback title/date
+      let title = file.replace(/[-_]/g, ' ').replace(/\.md$/, '').replace(/\b\w/g, l => l.toUpperCase());
+      let date = "";
 
-    fetch(`posts/${file}`)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('File not found');
+      // if metadata exists, use it
+      if (typeof posts !== 'undefined' && Array.isArray(posts)) {
+        const match = posts.find(p => p.file === file);
+        if (match) {
+          title = match.title;
+          date = match.date;
         }
-        return res.text();
-      })
-      .then(markdown => {
-        document.getElementById('content').innerHTML = marked.parse(markdown);
-      })
-      .catch(err => {
-        document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
-      });
+      }
+
+      document.querySelector('.post-title').textContent = title;
+      document.querySelector('.post-date').textContent = date;
+
+      fetch(`posts/${file}`)
+        .then(res => {
+          if (!res.ok) throw new Error("Markdown file not found");
+          return res.text();
+        })
+        .then(markdown => {
+          document.getElementById('content').innerHTML = marked.parse(markdown);
+        })
+        .catch(err => {
+          document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
+        });
+    }
   </script>
 </body>
 </html>
-
-
