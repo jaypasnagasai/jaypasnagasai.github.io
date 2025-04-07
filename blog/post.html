@@ -51,7 +51,7 @@
 
     main {
       max-width: 800px;
-      margin: 60px auto 40px auto; /* increased top margin for better spacing */
+      margin: 40px auto;
       padding: 0 20px;
     }
 
@@ -88,11 +88,6 @@
       border-radius: 4px;
     }
 
-    .loading {
-      font-style: italic;
-      opacity: 0.7;
-    }
-
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -123,33 +118,28 @@
   </header>
 
   <main id="content">
-    <p class="loading">Loading post...</p>
+    <p>Loading post...</p>
   </main>
 
   <script>
-    const contentDiv = document.getElementById('content');
     const urlParams = new URLSearchParams(window.location.search);
-    const fileName = urlParams.get('file');
+    const file = urlParams.get('file');
 
-    if (!fileName) {
-      contentDiv.innerHTML = '<div class="error">No post specified in the URL.</div>';
+    if (!file) {
+      document.getElementById('content').innerHTML = '<div class="error">No post specified in URL.</div>';
     } else {
-      const postPath = `posts/${fileName}`;
-
-      fetch(postPath)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`File not found: ${postPath}`);
+      fetch(`posts/${file}`)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('File not found');
           }
-          return response.text();
+          return res.text();
         })
         .then(markdown => {
-          const html = marked.parse(markdown);
-          contentDiv.innerHTML = html;
+          document.getElementById('content').innerHTML = marked.parse(markdown);
         })
-        .catch(error => {
-          contentDiv.innerHTML = `<div class="error">Could not load the post. (${error.message})</div>`;
-          console.error('Post loading error:', error);
+        .catch(err => {
+          document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
         });
     }
   </script>
