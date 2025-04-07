@@ -61,6 +61,7 @@
     }
 
     #calendar {
+      min-height: 500px; /* Ensure calendar has height */
       background-color: #222;
       padding: 20px;
       border-radius: 8px;
@@ -77,6 +78,7 @@
     .fc-toolbar button:hover {
       background-color: #777;
     }
+
   </style>
 </head>
 <body>
@@ -115,8 +117,6 @@
         eventClick: function(event) {
           alert('Event: ' + event.title);
         },
-
-        // Save events to localStorage
         eventAfterAllRender: function() {
           var events = $('#calendar').fullCalendar('clientEvents');
           localStorage.setItem('calendarEvents', JSON.stringify(events));
@@ -159,3 +159,4 @@
 
 </body>
 </html>
+
