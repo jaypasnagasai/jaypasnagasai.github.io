@@ -144,26 +144,33 @@
     if (!file) {
       document.getElementById('content').innerHTML = '<div class="error">No post specified in URL.</div>';
     } else {
-      const post = posts.find(p => p.file === file);
-      if (!post) {
-        document.getElementById('content').innerHTML = '<div class="error">Post not found in metadata.</div>';
-        document.querySelector('.post-title').textContent = 'Post not found';
-      } else {
-        document.querySelector('.post-title').textContent = post.title;
-        document.querySelector('.post-date').textContent = post.date;
+      // fallback title/date
+      let title = file.replace(/[-_]/g, ' ').replace(/\.md$/, '').replace(/\b\w/g, l => l.toUpperCase());
+      let date = "";
 
-        fetch(`posts/${file}`)
-          .then(res => {
-            if (!res.ok) throw new Error("Markdown file not found");
-            return res.text();
-          })
-          .then(markdown => {
-            document.getElementById('content').innerHTML = marked.parse(markdown);
-          })
-          .catch(err => {
-            document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
-          });
+      // if metadata exists, use it
+      if (typeof posts !== 'undefined' && Array.isArray(posts)) {
+        const match = posts.find(p => p.file === file);
+        if (match) {
+          title = match.title;
+          date = match.date;
+        }
       }
+
+      document.querySelector('.post-title').textContent = title;
+      document.querySelector('.post-date').textContent = date;
+
+      fetch(`posts/${file}`)
+        .then(res => {
+          if (!res.ok) throw new Error("Markdown file not found");
+          return res.text();
+        })
+        .then(markdown => {
+          document.getElementById('content').innerHTML = marked.parse(markdown);
+        })
+        .catch(err => {
+          document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
+        });
     }
   </script>
 </body>
