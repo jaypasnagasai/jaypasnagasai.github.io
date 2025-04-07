@@ -3,18 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calendar - Jayanth Pasupulati</title>
+  <title>Personal Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
-  
-  <!-- FullCalendar CSS (from CDN) -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.3.0/dist/fullcalendar.min.css" rel="stylesheet">
-
-  <!-- jQuery (required for FullCalendar) -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- FullCalendar JS (from CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.3.0/dist/fullcalendar.min.js"></script>
-
   <style>
     body {
       font-family: 'Fira Code', sans-serif;
@@ -124,50 +114,46 @@
       padding-bottom: 4px;
     }
 
-    #calendar-container {
-      flex: 1;
-      padding: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: #444;
-      border-radius: 8px;
+    .news ul {
+      list-style: disc;
+      padding-left: 20px;
     }
 
-    #calendar {
-      background-color: #222;
-      padding: 20px;
-      border-radius: 8px;
-    }
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
 
-    .fc-toolbar button {
-      background-color: #555;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
+      .sidebar, .content {
+        max-width: 100%;
+      }
 
-    .fc-toolbar button:hover {
-      background-color: #777;
+      nav {
+        margin-top: 10px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin-bottom: 6px;
+      }
     }
   </style>
 </head>
 <body>
-
   <header>
     <h1>Jayanth Pasupulati</h1>
     <nav>
-      <a href="../index.html">About Me</a>
-      <a href="../pages/research.html">Research</a>
-      <a href="../pages/projects.html"> Projects </a>
-      <a href="../pages/media.html">Media</a>
-      <a href="../blog/blog.html">Blog</a>
+      <a href="index.html">About Me</a>
+      <a href="pages/research.html">Research</a>
+      <a href="pages/projects.html"> Projects </a>
+      <a href="pages/media.html">Media</a>
+      <a href="blog/blog.html">Blog</a>
     </nav>
   </header>
 
   <main>
     <aside class="sidebar">
-      <img src="../images/profile.jpg" alt="Profile picture" class="profile-pic" />
+      <img src="images/profile.jpg" alt="Profile picture" class="profile-pic" />
       <p>Student Researcher</p>
       <ul class="contact-info">
         <li>
@@ -179,90 +165,31 @@
           <a href="mailto:jay662466@gmail.com">Email</a>
         </li>
         <li>
-          <img src="../images/github.svg" alt="GitHub Logo" class="icon" />
+          <img src="images/github.svg" alt="GitHub Logo" class="icon" />
           <a href="https://github.com/jaypasnagasai" target="_blank">GitHub</a>
         </li>
         <li>
-          <img src="../images/linkedin-original.svg" alt="LinkedIn Logo" class="icon" />
+          <img src="images/linkedin-original.svg" alt="LinkedIn Logo" class="icon" />
           <a href="https://www.linkedin.com/in/jayanth-pasupulati-916734190/" target="_blank">LinkedIn</a>
         </li>
         <li>
           <span class="icon">📄</span>
-          <a href="../resume.pdf" target="_blank">Resume</a>
+          <a href="resume.pdf" target="_blank">Resume</a>
         </li>
       </ul>
     </aside>
 
     <section class="content">
-      <section class="calendar">
-        <h2>My Calendar</h2>
-        <div id="calendar-container">
-          <div id="calendar"></div>
-        </div>
+      <section class="about">
+        <h2>About Me</h2>
+        <p>Hi, I’m Jayanth Pasupulati, a Cognitive Science major with a Computational Emphasis and a Computer Science minor at UC Davis, passionate about building ethical, scalable AI systems. My work spans LLM fine-tuning, privacy-preserving AI, and biomedical data analysis—developing real-world AI tools in NLP, generative AI, and multi-agent systems.</p>
+      </section>
+
+      <section class="research">
+        <h2>My Research</h2>
+        <p>Currently, I’m a student researcher at both the Tagkopoulos Lab at UC Davis and the Natural Language Processing Group at UC Santa Barbara. At Davis, I lead efforts to apply machine learning for improving drug development pipelines, building a vast database of preclinical papers to optimize translational success using advanced AI models. At UCSB, I’m focused on designing and evaluating multi-agent AI systems that prioritize privacy-preserving communication, building a unique dataset of collaborative scenarios and developing intelligent agents that can reason, interact, and safeguard user data in complex environments.</p>
       </section>
     </section>
   </main>
-
-  <script>
-    $(document).ready(function() {
-      // Initialize FullCalendar
-      $('#calendar').fullCalendar({
-        header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'month,agendaWeek,agendaDay'
-        },
-        events: [
-          {
-            title: 'Sample Event',
-            start: '2025-04-10',
-            end: '2025-04-12'
-          }
-        ],
-        eventClick: function(event) {
-          alert('Event: ' + event.title);
-        },
-
-        // Save events to localStorage
-        eventAfterAllRender: function() {
-          var events = $('#calendar').fullCalendar('clientEvents');
-          localStorage.setItem('calendarEvents', JSON.stringify(events));
-        }
-      });
-
-      // Load events from localStorage
-      function loadEventsFromLocalStorage() {
-        var events = JSON.parse(localStorage.getItem('calendarEvents')) || [];
-        $('#calendar').fullCalendar('addEventSource', events);
-      }
-
-      loadEventsFromLocalStorage();
-
-      // Add event dynamically
-      function addEvent() {
-        var eventTitle = prompt('Enter event title:');
-        var eventDate = prompt('Enter event date (YYYY-MM-DD):');
-        
-        if (eventTitle && eventDate) {
-          $('#calendar').fullCalendar('renderEvent', {
-            title: eventTitle,
-            start: eventDate,
-            allDay: true
-          });
-
-          // Save the new event
-          var events = $('#calendar').fullCalendar('clientEvents');
-          localStorage.setItem('calendarEvents', JSON.stringify(events));
-        }
-      }
-
-      // Add event button (you can customize the trigger)
-      $('<button>')
-        .text('Add Event')
-        .click(addEvent)
-        .appendTo('#calendar-container');
-    });
-  </script>
-
 </body>
 </html>
