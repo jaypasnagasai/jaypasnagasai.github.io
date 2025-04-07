@@ -1,46 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendar Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar - Jayanth Pasupulati</title>
   
   <!-- FullCalendar CSS (from CDN) -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.3.0/dist/fullcalendar.min.css" rel="stylesheet">
-  
+
   <!-- jQuery (required for FullCalendar) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  
+
   <!-- FullCalendar JS (from CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.3.0/dist/fullcalendar.min.js"></script>
 
   <style>
     body {
-      background-color: #333;
-      color: white;
-      font-family: 'Fira Code', monospace;
+      font-family: 'Fira Code', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f;
+      color: #d8d8d8;
+      line-height: 1.6;
     }
 
-    #calendar-container {
-      width: 90%;
-      margin: 40px auto;
-    }
-
-    #calendar {
-      background-color: #444;
-      padding: 10px;
-    }
-
-    #calendar-header {
+    header {
+      padding: 20px;
+      background-color: #121212;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: white;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #1f1f1f;
     }
 
-    .fc-event {
-      background-color: #2e3b4e;
-      color: white;
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #00ffe0;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #ff6ec7;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #ffa6e3;
+    }
+
+    #calendar-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #444;
+      border-radius: 8px;
+    }
+
+    #calendar {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 8px;
     }
 
     .fc-toolbar button {
@@ -57,6 +80,17 @@
   </style>
 </head>
 <body>
+
+  <header>
+    <h1>Jayanth Pasupulati</h1>
+    <nav>
+      <a href="../index.html">About Me</a>
+      <a href="../pages/research.html">Research</a>
+      <a href="../pages/projects.html"> Projects </a>
+      <a href="../pages/media.html">Media</a>
+      <a href="../blog/blog.html">Blog</a>
+    </nav>
+  </header>
 
   <div id="calendar-container">
     <div id="calendar"></div>
