@@ -146,14 +146,13 @@
   </main>
 
   <script>
-    // Configure marked
+    // Configure marked.js
     marked.setOptions({
       breaks: true,
       gfm: true,
       smartLists: true
     });
 
-    // Get ?file=filename.md from the URL
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
 
@@ -162,13 +161,13 @@
       throw new Error("No file parameter provided");
     }
 
-    // Default title from filename
     let title = file.replace(/[-_]/g, ' ').replace(/\.md$/, '').replace(/\b\w/g, l => l.toUpperCase());
     let date = "";
 
+    // Get post metadata
     let match = null;
     if (typeof posts !== 'undefined' && Array.isArray(posts)) {
-      match = posts.find(p => p.file === `posts/${file}` || p.file === file);
+      match = posts.find(p => p.file === file || p.file === `posts/${file}`);
       if (match) {
         title = match.title;
         date = match.date;
@@ -184,8 +183,7 @@
         return res.text();
       })
       .then(markdown => {
-        const html = marked.parse(markdown.trim());
-        document.getElementById('content').innerHTML = html;
+        document.getElementById('content').innerHTML = marked.parse(markdown.trim());
       })
       .catch(err => {
         document.getElementById('content').innerHTML = `<div class="error">Could not load the post <code>${file}</code>. (${err.message})</div>`;
