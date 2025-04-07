@@ -98,6 +98,10 @@
       border-radius: 4px;
     }
 
+    #tag-list {
+      margin-bottom: 10px;
+    }
+
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -142,7 +146,8 @@
     const file = urlParams.get('file');
 
     if (!file || !file.endsWith('.md')) {
-      document.getElementById('content').innerHTML = '<div class="error">No valid Markdown file specified in URL. Try <code>?file=your-post.md</code></div>';
+      document.getElementById('content').innerHTML =
+        '<div class="error">No valid Markdown file specified in URL. Try <code>?file=your-post.md</code></div>';
     } else {
       let title = file.replace(/[-_]/g, ' ').replace(/\.md$/, '').replace(/\b\w/g, l => l.toUpperCase());
       let date = "";
@@ -165,7 +170,7 @@
           return res.text();
         })
         .then(markdown => {
-          const tagMatch = markdown.match(/<!--\s*tags\s*:\s*([^\n]+?)\s*-->/i);
+          const tagMatch = markdown.match(/<!--\\s*tags\\s*:\\s*([^\\n]+?)\\s*-->/i);
           let tagListHTML = "";
           if (tagMatch) {
             const tags = tagMatch[1].split(',').map(tag => tag.trim());
@@ -176,14 +181,16 @@
 
           const rendered = marked.parse(markdown);
           document.getElementById('content').innerHTML = `
-            <div id="tag-list" style="margin-bottom: 10px;">${tagListHTML}</div>
+            <div id="tag-list">${tagListHTML}</div>
             ${rendered}
           `;
         })
         .catch(err => {
-          document.getElementById('content').innerHTML = `<div class="error">Could not load the post <code>${file}</code>. (${err.message})</div>`;
+          document.getElementById('content').innerHTML =
+            \`<div class="error">Could not load the post <code>\${file}</code>. (\${err.message})</div>\`;
         });
     }
   </script>
 </body>
 </html>
+
