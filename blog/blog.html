@@ -3,107 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Post - Jayanth Pasupulati</title>
+  <title>Blog - Jayanth Pasupulati</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="metadata.js"></script>
   <style>
     body {
-      font-family: 'Fira Code', sans-serif;
+      font-family: 'Fira Code', monospace;
+      background-color: #0f0f0f;
+      color: #e0e0e0;
       margin: 0;
       padding: 0;
-      background-color: #0f0f0f;
-      color: #d8d8d8;
-      line-height: 1.6;
     }
 
     header {
-      padding: 20px;
-      background-color: #121212;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      padding: 20px;
       border-bottom: 1px solid #1f1f1f;
     }
 
-    header h1 {
-      margin: 0;
+    h1 {
       font-size: 1.8rem;
       color: #00ffe0;
+      margin: 0;
     }
 
     nav a {
-      margin: 0 10px;
+      color: #ffffff;
+      margin-left: 15px;
       text-decoration: none;
-      color: #ff6ec7;
-      font-weight: bold;
-      transition: color 0.2s ease;
     }
 
     nav a:hover {
-      color: #ffa6e3;
+      text-decoration: underline;
     }
 
     main {
       max-width: 800px;
-      margin: 40px auto;
+      margin: 0 auto;
       padding: 0 20px;
     }
 
-    .post-title {
+    h2 {
       font-size: 1.3rem;
       color: #00ffe0;
-      margin-bottom: 4px;
+      margin-bottom: 10px;
       border-bottom: 1px solid #1f1f1f;
       padding-bottom: 4px;
     }
 
-    .post-date {
-      color: #aaaaaa;
-      margin-bottom: 20px;
-      font-size: 0.9rem;
-    }
-
-    .post-content h1, .post-content h2, .post-content h3 {
-      color: #00ffe0;
-    }
-
-    .post-content pre {
-      background-color: #1f1f1f;
-      padding: 10px;
-      overflow-x: auto;
-      border-radius: 6px;
-    }
-
-    .post-content code {
-      font-family: 'Fira Code', monospace;
-      color: #ffb86c;
+    ul {
+      list-style: disc;
+      padding-left: 20px;
     }
 
     a {
-      color: #8affff;
-      text-decoration: none;
-    }
-
-    a:hover {
+      color: #00ffe0;
       text-decoration: underline;
     }
 
-    .error {
-      color: #ff6ec7;
-      padding: 20px;
-      background-color: #1a1a1a;
-      border: 1px solid #ff6ec7;
-      border-radius: 4px;
-    }
-
     @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
       nav {
         margin-top: 10px;
       }
@@ -112,6 +71,11 @@
         display: inline-block;
         margin-bottom: 6px;
       }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
@@ -119,57 +83,28 @@
   <header>
     <h1>Jayanth Pasupulati</h1>
     <nav>
-      <a href="../index.html">About Me</a>
-      <a href="../pages/research.html">Research</a>
-      <a href="../pages/projects.html">Projects</a>
-      <a href="../pages/media.html">Media</a>
+      <a href="index.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html">Projects</a>
+      <a href="media.html">Media</a>
       <a href="blog.html">Blog</a>
     </nav>
   </header>
 
   <main>
-    <div id="post-header">
-      <div class="post-title">Loading title...</div>
-      <div class="post-date"></div>
-    </div>
-    <div id="content" class="post-content">
-      <p>Loading post content...</p>
-    </div>
+    <h2>Blog</h2>
+    <p>Short essays, technical reflections, and personal insights on building AI that matters.</p>
+    <ul id="post-list"></ul>
   </main>
 
+  <script src="metadata.js"></script>
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const file = urlParams.get('file');
-
-    if (!file) {
-      document.getElementById('content').innerHTML = '<div class="error">No post specified in URL.</div>';
-    } else {
-      let title = file.replace(/[-_]/g, ' ').replace(/\\.md$/, '').replace(/\\b\\w/g, l => l.toUpperCase());
-      let date = "";
-
-      if (typeof posts !== 'undefined' && Array.isArray(posts)) {
-        const match = posts.find(p => p.file === file);
-        if (match) {
-          title = match.title;
-          date = match.date;
-        }
-      }
-
-      document.querySelector('.post-title').textContent = title;
-      document.querySelector('.post-date').textContent = date;
-
-      fetch(`posts/${file}`)
-        .then(res => {
-          if (!res.ok) throw new Error("Markdown file not found");
-          return res.text();
-        })
-        .then(markdown => {
-          document.getElementById('content').innerHTML = marked.parse(markdown);
-        })
-        .catch(err => {
-          document.getElementById('content').innerHTML = `<div class="error">Could not load the post. (${err.message})</div>`;
-        });
-    }
+    const list = document.getElementById('post-list');
+    posts.forEach(post => {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${post.date}:</strong> <em><a href="post.html?file=${post.file}">${post.title}</a></em>`;
+      list.appendChild(li);
+    });
   </script>
 </body>
 </html>
