@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar Page</title>
+  
+  <!-- FullCalendar CSS (from CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.3.0/dist/fullcalendar.min.css" rel="stylesheet">
+  
+  <!-- jQuery (required for FullCalendar) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <!-- FullCalendar JS (from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.3.0/dist/fullcalendar.min.js"></script>
+
+  <style>
+    body {
+      background-color: #333;
+      color: white;
+      font-family: 'Fira Code', monospace;
+    }
+
+    #calendar-container {
+      width: 90%;
+      margin: 40px auto;
+    }
+
+    #calendar {
+      background-color: #444;
+      padding: 10px;
+    }
+
+    #calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .fc-event {
+      background-color: #2e3b4e;
+      color: white;
+    }
+
+    .fc-toolbar button {
+      background-color: #555;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .fc-toolbar button:hover {
+      background-color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="calendar-container">
+    <div id="calendar"></div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      // Initialize FullCalendar
+      $('#calendar').fullCalendar({
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,agendaWeek,agendaDay'
+        },
+        events: [
+          {
+            title: 'Sample Event',
+            start: '2025-04-10',
+            end: '2025-04-12'
+          }
+        ],
+        eventClick: function(event) {
+          alert('Event: ' + event.title);
+        },
+
+        // Save events to localStorage
+        eventAfterAllRender: function() {
+          var events = $('#calendar').fullCalendar('clientEvents');
+          localStorage.setItem('calendarEvents', JSON.stringify(events));
+        }
+      });
+
+      // Load events from localStorage
+      function loadEventsFromLocalStorage() {
+        var events = JSON.parse(localStorage.getItem('calendarEvents')) || [];
+        $('#calendar').fullCalendar('addEventSource', events);
+      }
+
+      loadEventsFromLocalStorage();
+
+      // Add event dynamically
+      function addEvent() {
+        var eventTitle = prompt('Enter event title:');
+        var eventDate = prompt('Enter event date (YYYY-MM-DD):');
+        
+        if (eventTitle && eventDate) {
+          $('#calendar').fullCalendar('renderEvent', {
+            title: eventTitle,
+            start: eventDate,
+            allDay: true
+          });
+
+          // Save the new event
+          var events = $('#calendar').fullCalendar('clientEvents');
+          localStorage.setItem('calendarEvents', JSON.stringify(events));
+        }
+      }
+
+      // Add event button (you can customize the trigger)
+      $('<button>')
+        .text('Add Event')
+        .click(addEvent)
+        .appendTo('#calendar-container');
+    });
+  </script>
+
+</body>
+</html>
