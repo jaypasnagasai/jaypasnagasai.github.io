@@ -149,8 +149,9 @@
       document.getElementById('content').innerHTML =
         '<div class="error">No valid Markdown file specified in URL. Try <code>?file=your-post.md</code></div>';
     } else {
-      let title = file.replace(/[-_]/g, ' ').replace(/\.md$/, '').replace(/\b\w/g, l => l.toUpperCase());
+      let title = file.replace(/[-_]/g, ' ').replace(/\\.md$/, '').replace(/\\b\\w/g, l => l.toUpperCase());
       let date = "";
+      let tagListHTML = "";
 
       let match = null;
       if (typeof posts !== 'undefined' && Array.isArray(posts)) {
@@ -158,6 +159,11 @@
         if (match) {
           title = match.title;
           date = match.date;
+          if (match.tags) {
+            tagListHTML = match.tags.map(tag =>
+              `<a href="tag.html?tag=${encodeURIComponent(tag)}" style="color:#ff6ec7; margin-right:10px;">#${tag}</a>`
+            ).join('');
+          }
         }
       }
 
@@ -170,15 +176,6 @@
           return res.text();
         })
         .then(markdown => {
-          const tagMatch = markdown.match(/<!--\\s*tags\\s*:\\s*([^\\n]+?)\\s*-->/i);
-          let tagListHTML = "";
-          if (tagMatch) {
-            const tags = tagMatch[1].split(',').map(tag => tag.trim());
-            tagListHTML = tags.map(tag =>
-              `<a href="tag.html?tag=${encodeURIComponent(tag)}" style="color:#ff6ec7; margin-right:10px;">#${tag}</a>`
-            ).join('');
-          }
-
           const rendered = marked.parse(markdown);
           document.getElementById('content').innerHTML = `
             <div id="tag-list">${tagListHTML}</div>
@@ -193,4 +190,6 @@
   </script>
 </body>
 </html>
+
+
 
