@@ -1,10 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta http-equiv="Refresh" content="0; url=../post.html?file=now/now.md" />
+    <meta charset="UTF-8" />
     <title>Now - Jayanth Pasupulati</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 0 20px;
+        line-height: 1.6;
+      }
+      h1, h2, h3 {
+        color: #333;
+      }
+      em {
+        color: #555;
+      }
+    </style>
   </head>
   <body>
-    <p>Redirecting to <a href="../post.html?file=now/now.md">now</a>...</p>
+    <div id="content">Loading...</div>
+
+    <script>
+      fetch('now.md')
+        .then(response => response.text())
+        .then(text => {
+          document.getElementById('content').innerHTML = marked.parse(text);
+        })
+        .catch(error => {
+          document.getElementById('content').innerHTML = 'Failed to load content.';
+          console.error('Error loading now.md:', error);
+        });
+    </script>
   </body>
 </html>
