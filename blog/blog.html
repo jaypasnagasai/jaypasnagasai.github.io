@@ -31,13 +31,8 @@
       color: #00ffe0;
     }
 
-    nav {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
     nav a {
+      margin: 0 10px;
       text-decoration: none;
       color: #ff6ec7;
       font-weight: bold;
@@ -50,7 +45,7 @@
 
     main {
       max-width: 800px;
-      margin: 60px auto 40px auto; /* increased top margin for better spacing */
+      margin: 40px auto;
       padding: 0 20px;
     }
 
@@ -77,11 +72,6 @@
     }
 
     @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
       nav {
         margin-top: 10px;
       }
@@ -89,6 +79,11 @@
       nav a {
         display: inline-block;
         margin-bottom: 6px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -106,29 +101,37 @@
   </header>
 
   <main>
-    <h2> JayLogs </h2>
-    <p> Essays on AI and everything in between. </p>
+    <h2>Blog</h2>
+    <p>Short essays, technical reflections, and personal insights on building AI that matters.</p>
     <ul id="post-list"></ul>
   </main>
 
-  <!-- Load post metadata from JS -->
-  <script src="metadata.js"></script>
-
-  <!-- Render post list -->
   <script>
+    const posts = [
+      {
+        date: "March 2025",
+        title: "How to Make Multi-Agent Systems Understand You",
+        file: "sample.md"
+      },
+      {
+        date: "January 2025",
+        title: "Why Translational Success Rates Matter in AI for Health",
+        file: "2025-01-translational-success.md"
+      },
+      {
+        date: "November 2024",
+        title: "From Prompt to Pipeline: My Workflow with LLMs",
+        file: "2024-11-llm-workflow.md"
+      }
+    ];
+
     const list = document.getElementById('post-list');
-    if (Array.isArray(posts)) {
-      posts.forEach(post => {
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${post.date}:</strong> <em><a href="post.html?file=${post.file}">${post.title}</a></em>`;
-        list.appendChild(li);
-      });
-    } else {
-      list.innerHTML = '<li>Failed to load blog posts.</li>';
-      console.error('posts is not an array');
-    }
+    posts.forEach(post => {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${post.date}:</strong> <em><a href="post.html?file=${post.file}">${post.title}</a></em>`;
+      list.appendChild(li);
+    });
   </script>
 </body>
 </html>
-
 
