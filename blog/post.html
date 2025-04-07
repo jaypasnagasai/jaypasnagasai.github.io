@@ -98,6 +98,10 @@
       border-radius: 4px;
     }
 
+    .post-tags {
+      margin-top: 20px;
+    }
+
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -135,24 +139,14 @@
     <div id="content" class="post-content">
       <p>Loading post content...</p>
     </div>
-  
-  <div class="post-tags" style="margin-top: 20px;">
-    <strong>Tags:</strong> <span id="tag-list"></span>
-  </div>
+
+    <!-- Tags section -->
+    <div class="post-tags">
+      <strong>Tags:</strong> <span id="tag-list"></span>
+    </div>
   </main>
-  <script>
-    const tagList = document.getElementById('tag-list');
-    if (typeof posts !== 'undefined' && Array.isArray(posts)) {
-      const match = posts.find(p => p.file === file || p.file === `posts/${file}`);
-      if (match && match.tags) {
-        tagList.innerHTML = match.tags.map(tag => 
-          `<a href="tag.html?tag=${encodeURIComponent(tag)}" style="color:#ff6ec7; margin-right:10px;">#${tag}</a>`
-        ).join('');
-      }
-    }
-  </script>
 
-
+  <!-- Main post loading script -->
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const file = urlParams.get('file');
@@ -164,8 +158,9 @@
       let date = "";
 
       // Try to find metadata match
+      let match = null;
       if (typeof posts !== 'undefined' && Array.isArray(posts)) {
-        const match = posts.find(p => p.file === `posts/${file}`);
+        match = posts.find(p => p.file === `posts/${file}` || p.file === file);
         if (match) {
           title = match.title;
           date = match.date;
@@ -186,6 +181,14 @@
         .catch(err => {
           document.getElementById('content').innerHTML = `<div class="error">Could not load the post <code>${file}</code>. (${err.message})</div>`;
         });
+
+      // Tag rendering logic
+      const tagList = document.getElementById('tag-list');
+      if (match && match.tags) {
+        tagList.innerHTML = match.tags.map(tag =>
+          `<a href="tag.html?tag=${encodeURIComponent(tag)}" style="color:#ff6ec7; margin-right:10px;">#${tag}</a>`
+        ).join('');
+      }
     }
   </script>
 </body>
