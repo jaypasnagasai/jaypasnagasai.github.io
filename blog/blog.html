@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog - Jayanth Pasupulati</title>
+  <title>Post - Jayanth Pasupulati</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="metadata.js"></script>
   <style>
     body {
@@ -15,6 +16,7 @@
       color: #d8d8d8;
       line-height: 1.6;
     }
+
     header {
       padding: 20px;
       background-color: #121212;
@@ -24,11 +26,13 @@
       flex-wrap: wrap;
       border-bottom: 1px solid #1f1f1f;
     }
+
     header h1 {
       margin: 0;
       font-size: 1.8rem;
       color: #00ffe0;
     }
+
     nav a {
       margin: 0 10px;
       text-decoration: none;
@@ -36,43 +40,78 @@
       font-weight: bold;
       transition: color 0.2s ease;
     }
+
     nav a:hover {
       color: #ffa6e3;
     }
+
     main {
       max-width: 800px;
       margin: 40px auto;
       padding: 0 20px;
     }
-    h2 {
+
+    .post-title {
       font-size: 1.3rem;
       color: #00ffe0;
-      margin-bottom: 10px;
+      margin-bottom: 4px;
       border-bottom: 1px solid #1f1f1f;
       padding-bottom: 4px;
     }
-    ul {
-      list-style: disc;
-      padding-left: 20px;
+
+    .post-date {
+      color: #aaaaaa;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
     }
-    ul li {
-      margin-bottom: 10px;
+
+    .post-content h1, .post-content h2, .post-content h3 {
+      color: #00ffe0;
     }
+
+    .post-content pre {
+      background-color: #1f1f1f;
+      padding: 10px;
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+
+    .post-content code {
+      font-family: 'Fira Code', monospace;
+      color: #ffb86c;
+    }
+
     a {
       color: #8affff;
       text-decoration: none;
     }
+
     a:hover {
       text-decoration: underline;
     }
+
+    .error {
+      color: #ff6ec7;
+      padding: 20px;
+      background-color: #1a1a1a;
+      border: 1px solid #ff6ec7;
+      border-radius: 4px;
+    }
+
+    .post-tags {
+      margin-top: 20px;
+    }
+
     @media (max-width: 768px) {
       header {
         flex-direction: column;
         align-items: flex-start;
       }
+
       nav {
         margin-top: 10px;
       }
+
       nav a {
         display: inline-block;
         margin-bottom: 6px;
@@ -91,21 +130,75 @@
       <a href="blog.html">Blog</a>
     </nav>
   </header>
+
   <main>
-    <h2>Blog</h2>
-    <p>Short essays, technical reflections, and personal insights on building AI that matters.</p>
-    <ul id="post-list"></ul>
+    <div id="post-header">
+      <div class="post-title">Loading title...</div>
+      <div class="post-date"></div>
+    </div>
+    <div id="content" class="post-content">
+      <p>Loading post content...</p>
+    </div>
+
+    <div class="post-tags">
+      <span id="tag-list"></span>
+    </div>
   </main>
+
   <script>
-    const list = document.getElementById('post-list');
-    posts.forEach(post => {
-      const li = document.createElement('li');
-      li.innerHTML = `<strong>${post.date}:</strong> <em><a href="post.html?file=${post.file}">${post.title}</a></em>`;
-      list.appendChild(li);
+    // Configure marked.js
+    marked.setOptions({
+      breaks: true,
+      gfm: true,
+      smartLists: true
     });
+
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file');
+
+    if (!file) {
+      document.getElementById('content').innerHTML = `<div class="error">No file specified. Use <code>?file=yourfile.md</code> in the URL.</div>`;
+      throw new Error("No file parameter provided");
+    }
+
+    let title = file.replace(/[-_]/g, ' ').replace(/\.md$/, '').replace(/\b\w/g, l => l.toUpperCase());
+    let date = "";
+
+    // Get post metadata
+    let match = null;
+    if (typeof posts !== 'undefined' && Array.isArray(posts)) {
+      match = posts.find(p => p.file === file || p.file === `posts/${file}`);
+      if (match) {
+        title = match.title;
+        date = match.date;
+      }
+    }
+
+    document.querySelector('.post-title').textContent = title;
+    document.querySelector('.post-date').textContent = date;
+
+    fetch(`posts/${file}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Markdown file not found");
+        return res.text();
+      })
+      .then(markdown => {
+        document.getElementById('content').innerHTML = marked.parse(markdown.trim());
+      })
+      .catch(err => {
+        document.getElementById('content').innerHTML = `<div class="error">Could not load the post <code>${file}</code>. (${err.message})</div>`;
+      });
+
+    const tagList = document.getElementById('tag-list');
+    if (match && match.tags) {
+      tagList.innerHTML = match.tags.map(tag =>
+        `<a href="tag.html?tag=${encodeURIComponent(tag)}" style="color:#ff6ec7; margin-right:10px;">#${tag}</a>`
+      ).join('');
+    }
   </script>
 </body>
 </html>
+
 
 
 
