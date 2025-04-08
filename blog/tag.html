@@ -70,6 +70,13 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const tag = params.get("tag");
+
+    // Update page <title> dynamically based on the tag
+    if (tag) {
+      const formattedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+      document.title = `${formattedTag} | JayLogs`;
+    }
+
     document.getElementById("tag-title").textContent = tag;
     const container = document.getElementById("tag-posts");
     const filtered = posts.filter(post => post.tags?.includes(tag));
