@@ -24,12 +24,18 @@ jobs:
     - name: Run update.js
       run: node blog/update.js
 
-    - name: Commit and push metadata.js
+    - name: Commit and create PR
       env:
         GH_PAT: ${{ secrets.GH_PAT }}
       run: |
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+
+        git checkout -b auto-update
         git add blog/metadata.js
         git diff --cached --quiet || git commit -m "Auto-update metadata.js from metadata.csv"
-        git push https://x-access-token:${GH_PAT}@github.com/jaypasnagasai/jaypasnagasai.github.io.git HEAD:main
+        git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} auto-update
+
+        gh auth login --with-token <<< "${GH_PAT}"
+        gh pr create --title "Auto update metadata.js" --body "This PR updates metadata.js based on metadata.csv" --base main --head auto-update --repo ${{ github.repository }}
+
