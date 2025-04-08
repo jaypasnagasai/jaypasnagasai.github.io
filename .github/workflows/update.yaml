@@ -10,24 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
 
-      - name: Install dependencies
-        run: npm ci
+    - name: Manually install csv-parser
+      run: npm install csv-parser
 
-      - name: Run update.js
-        run: node blog/update.js
+    - name: Run update.js
+      run: node blog/update.js
 
-      - name: Commit and push metadata.js
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add blog/metadata.js
-          git commit -m "Auto-update metadata.js from metadata.csv"
-          git push
+    - name: Commit and push metadata.js
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add blog/metadata.js
+        git commit -m "Auto-update metadata.js from metadata.csv"
+        git push
