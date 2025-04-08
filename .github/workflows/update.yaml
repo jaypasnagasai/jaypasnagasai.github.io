@@ -25,9 +25,11 @@ jobs:
       run: node blog/update.js
 
     - name: Commit and push metadata.js
+      env:
+        GH_TOKEN: ${{ secrets.GH_PAT }}
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add blog/metadata.js
-        git commit -m "Auto-update metadata.js from metadata.csv"
-        git push
+        git diff --cached --quiet || git commit -m "Auto-update metadata.js from metadata.csv"
+        git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} HEAD:main
