@@ -21,5 +21,6 @@ _Last updated: April 2025_
 ## 🎧 Listening To
 
 
-
-> This is a living document. Inspired by [Derek Sivers' /now movement](https://nownownow.com/about).
+```
+This is a living document. Inspired by [Derek Sivers' /now movement](https://nownownow.com/about).
+```
