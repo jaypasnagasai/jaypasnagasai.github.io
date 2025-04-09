@@ -2,23 +2,23 @@
 
 _Last updated: April 2025_
 
-## 🧠 Research
+## RESEARCH
 
 
 
-## 👨‍💻 Projects
+## PROJECTS
 
 
 
-## 📚 Learning
+## LEARNING 
 
 
 
-## 💙 Life
+## LIFE
 
 
 
-## 🎧 Listening To
+## CONTENT
 
 
 ```
