@@ -21,6 +21,6 @@ _Last updated: April 2025_
 ## CONTENT
 
 
-```
+
 This is a living document. Inspired by [Derek Sivers' /now movement](https://nownownow.com/about).
-```
+
