@@ -1,1 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Contact | Jayanth Pasupulati </title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Fira Code', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f;
+      color: #d8d8d8;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 20px;
+      background-color: #121212;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #00ffe0;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #ff6ec7;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #ffa6e3;
+    }
+
+    main {
+      display: flex;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .sidebar {
+      flex: 1;
+      max-width: 250px;
+    }
+
+    .profile-pic {
+      width: 100%;
+      border-radius: 0;
+      margin-bottom: 10px;
+      border: 2px solid #0f0f0f;
+    }
+
+    .contact-info {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .contact-info li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .contact-info .icon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .contact-info a {
+      text-decoration: none;
+      color: #FF6B6B;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+    }
+
+    .contact-info a:hover {
+      color: #8affff;
+    }
+
+    .content {
+      flex: 3;
+      min-width: 300px;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      color: #82AAFF;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #1f1f1f;
+      padding-bottom: 4px;
+    }
+
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #333;
+      background-color: #222;
+      color: #d8d8d8;
+      font-family: 'Fira Code', sans-serif;
+    }
+
+    form button {
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: none;
+      background-color: #FF6B6B;
+      color: #0f0f0f;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+
+    form button:hover {
+      background-color: #FF6B6B;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+
+      .sidebar,
+      .content {
+        max-width: 100%;
+      }
+
+      nav {
+        margin-top: 10px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin-bottom: 6px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Jayanth Pasupulati</h1>
+    <nav>
+      <a href="../index.html">About Me</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html">Projects</a>
+      <a href="media.html">Media</a>
+      <a href="../blog/blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <aside class="sidebar">
+      <img src="../images/profile.jpg" alt="Profile picture" class="profile-pic" />
+      <p>Student Researcher</p>
+      <ul class="contact-info">
+        <li><span class="icon">📍</span>Antioch, CA</li>
+        <li><span class="icon">📧</span><a href="mailto:jay662466@gmail.com">Email</a></li>
+        <li><img src="../images/github.svg" alt="GitHub Logo" class="icon" /><a href="https://github.com/jaypasnagasai" target="_blank">GitHub</a></li>
+        <li><img src="../images/linkedin-original.svg" alt="LinkedIn Logo" class="icon" /><a href="https://www.linkedin.com/in/jayanth-pasupulati-916734190/" target="_blank">LinkedIn</a></li>
+        <li><span class="icon">📄</span><a href="../resume.pdf" target="_blank">Resume</a></li>
+        <li><span class="icon">😊</span><a href="../now/index.html" target="_blank">Now</a></li>
+      </ul>
+    </aside>
+
+    <section class="content">
+      <h2>Contact Me</h2>
+      <form action="https://formspree.io/f/mrbpoypq" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const form = document.querySelector('form');
+    const thankYouMessage = document.createElement('p');
+    thankYouMessage.textContent = "Thanks for submitting!";
+    thankYouMessage.style.color = "#00ffe0";
+    thankYouMessage.style.marginTop = "15px";
+    thankYouMessage.style.display = "none";
+    form.parentNode.appendChild(thankYouMessage);
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: formData,
+          headers: {
+            Accept: "application/json"
+          }
+        });
+
+        if (response.ok) {
+          form.reset();
+          thankYouMessage.style.display = "block";
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
+      } catch (error) {
+        alert("There was a problem submitting your form.");
+      }
+    });
+  </script>
+</body>
+
+</html>
 
