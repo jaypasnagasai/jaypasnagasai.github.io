@@ -44,7 +44,7 @@
     }
 
     main {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 40px auto;
       padding: 0 20px;
     }
@@ -66,6 +66,46 @@
       margin-bottom: 12px;
     }
 
+    .project-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 30px;
+      justify-content: center;
+    }
+
+    .project-card {
+      background-color: #181818;
+      border: 2px solid #2f2f2f;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      width: 260px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .project-card img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 10px;
+    }
+
+    .project-card h3 {
+      font-size: 1.1rem;
+      color: #ffffff;
+      margin: 10px 0 4px;
+    }
+
+    .project-card p {
+      font-size: 0.9rem;
+      color: #bbbbbb;
+    }
+
     @media (max-width: 768px) {
       nav {
         margin-top: 10px;
@@ -74,6 +114,10 @@
       nav a {
         display: inline-block;
         margin-bottom: 6px;
+      }
+
+      .project-card {
+        width: 100%;
       }
     }
   </style>
@@ -94,7 +138,41 @@
   <main>
     <h2> Personal Projects </h2>
     <p>I explore the intersection of cognitive science, machine learning, and ethical AI systems. My work blends real-world problem solving with academic rigor.</p>
+
+    <div class="project-grid">
+      <div class="project-card">
+        <img src="../assets/butterfly.png" alt="Pendulum City Icon" />
+        <h3>Pendulum City</h3>
+        <p>Explore the butterfly effect</p>
+      </div>
+      <div class="project-card">
+        <img src="../assets/fist.png" alt="Boycott Buddy Icon" />
+        <h3>Boycott Buddy</h3>
+        <p>Consumer Transparency</p>
+      </div>
+      <div class="project-card">
+        <img src="../assets/middle-finger.png" alt="F*ck Nestlé Icon" />
+        <h3>F*ck Nestlé</h3>
+        <p>All about Nestlé</p>
+      </div>
+      <div class="project-card">
+        <img src="../assets/animal-heart.png" alt="Animal Alliance Icon" />
+        <h3>Animal Alliance Pledge</h3>
+        <p>Animal Activism Support</p>
+      </div>
+      <div class="project-card">
+        <img src="../assets/collab.png" alt="Collab Spot Icon" />
+        <h3>Collab Spot</h3>
+        <p>Collaborative Website Iteration</p>
+      </div>
+      <div class="project-card">
+        <img src="../assets/fist.png" alt="Boycott Buddy App Icon" />
+        <h3>Boycott Buddy App</h3>
+        <p>Official Boycott Buddy App</p>
+      </div>
+    </div>
   </main>
 </body>
 </html>
+
 
