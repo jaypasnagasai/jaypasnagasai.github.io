@@ -44,7 +44,7 @@
     }
 
     main {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 40px auto;
       padding: 0 20px;
     }
@@ -57,13 +57,38 @@
       padding-bottom: 4px;
     }
 
-    ul {
-      list-style: disc;
-      padding-left: 20px;
+    .research-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 30px;
+      justify-content: center;
     }
 
-    li {
-      margin-bottom: 12px;
+    .research-card {
+      background-color: #181818;
+      border: 2px solid #2f2f2f;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: left;
+      width: 300px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .research-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .research-card h3 {
+      font-size: 1.1rem;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .research-card p {
+      font-size: 0.9rem;
+      color: #bbbbbb;
     }
 
     @media (max-width: 768px) {
@@ -74,6 +99,10 @@
       nav a {
         display: inline-block;
         margin-bottom: 6px;
+      }
+
+      .research-card {
+        width: 100%;
       }
     }
   </style>
@@ -92,10 +121,34 @@
   </header>
 
   <main>
-    <h2>Research Work </h2>
+    <h2>Research Work</h2>
     <p>I explore the intersection of cognitive science, machine learning, and ethical AI systems. My work blends real-world problem solving with academic rigor.</p>
+
+    <div class="research-grid">
+      <div class="research-card">
+        <h3>Agentic AI & Multi-agent Systems</h3>
+        <p>Studying decision-making frameworks and inter-agent coordination in cooperative and competitive environments.</p>
+      </div>
+      <div class="research-card">
+        <h3>Preclinical Trial Data via LLMs</h3>
+        <p>Generating structured preclinical datasets from scientific papers using large language models and prompt engineering.</p>
+      </div>
+      <div class="research-card">
+        <h3>Ethical AI Systems</h3>
+        <p>Research focused on fairness, transparency, and responsible deployment of machine learning in high-stakes domains.</p>
+      </div>
+      <div class="research-card">
+        <h3>Neuro-symbolic Reasoning</h3>
+        <p>Exploring hybrid models that combine neural networks with logic for explainable cognitive modeling.</p>
+      </div>
+      <div class="research-card">
+        <h3>Privacy-preserving Machine Learning</h3>
+        <p>Designing models that protect sensitive training data using differential privacy and federated learning techniques.</p>
+      </div>
+    </div>
   </main>
 </body>
 </html>
+
 
 
