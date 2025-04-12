@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Markdown Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: 'Fira Code', monospace;
+      background-color: #0f0f0f;
+      color: #d8d8d8;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    a {
+      color: #00ffe0;
+    }
+
+    pre, code {
+      background-color: #1c1c1c;
+      padding: 6px 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">Loading...</div>
+
+  <script>
+    // Get the file from query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const file = urlParams.get('file');
+
+    if (file) {
+      fetch(file)
+        .then(response => {
+          if (!response.ok) throw new Error("Markdown file not found.");
+          return response.text();
+        })
+        .then(md => {
+          document.getElementById('content').innerHTML = marked.parse(md);
+        })
+        .catch(error => {
+          document.getElementById('content').innerText = error.message;
+        });
+    } else {
+      document.getElementById('content').innerText = "No file specified.";
+    }
+  </script>
+</body>
+</html>
