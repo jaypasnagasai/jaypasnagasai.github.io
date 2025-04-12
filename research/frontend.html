@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title> Project | Jayanth Pasupulati</title>
+  <title>Project | Jayanth Pasupulati</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -44,13 +44,16 @@
     const mdFile = params.get("md");
 
     if (mdFile) {
-      fetch(`../pages/${mdFile}`)
-        .then(res => res.text())
+      fetch(`pages/${mdFile}`)
+        .then(res => {
+          if (!res.ok) throw new Error("File not found");
+          return res.text();
+        })
         .then(text => {
           document.getElementById('content').innerHTML = marked.parse(text);
         })
-        .catch(() => {
-          document.getElementById('content').innerText = 'Error loading Markdown file.';
+        .catch(err => {
+          document.getElementById('content').innerText = '❌ Error loading Markdown file: ' + err.message;
         });
     } else {
       document.getElementById('content').innerText = 'No Markdown file specified. Use ?md=filename.md';
