@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> Research | Jayanth Pasupulati </title>
+  <title>Research | Jayanth Pasupulati</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
   <style>
     body {
@@ -57,15 +57,6 @@
       padding-bottom: 4px;
     }
 
-    ul {
-      list-style: disc;
-      padding-left: 20px;
-    }
-
-    li {
-      margin-bottom: 12px;
-    }
-
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -115,31 +106,31 @@
   </header>
 
   <main>
-    <h2>Research Work </h2>
+    <h2>Research Work</h2>
     <p>I explore the intersection of cognitive science, machine learning, and ethical AI systems. My work blends real-world problem solving with academic rigor.</p>
 
-    <div class="grid">
-      <a class="card" href="papers/cognitive-ai.html">
-        <h3>Cognitive AI Models</h3>
-        <p>Exploring computational frameworks inspired by human cognition.</p>
-      </a>
-      <a class="card" href="papers/ethics-llms.html">
-        <h3>LLM & Ethics</h3>
-        <p>Analyzing bias, fairness, and safety in large language models.</p>
-      </a>
-      <a class="card" href="papers/agentic-architecture.html">
-        <h3>Agentic Architectures</h3>
-        <p>Building multi-agent systems for strategic coordination.</p>
-      </a>
-      <a class="card" href="papers/realworld-ml.html">
-        <h3>Real-World ML</h3>
-        <p>Applying machine learning to clinical and scientific datasets.</p>
-      </a>
+    <div class="grid" id="projectGrid">
+      <!-- Cards will be injected here by JS -->
     </div>
   </main>
+
+  <!-- Project data -->
+  <script src="projects.js"></script>
+  <!-- Render cards -->
+  <script>
+    const grid = document.getElementById("projectGrid");
+
+    projects.forEach(project => {
+      const card = document.createElement("a");
+      card.className = "card";
+      card.href = `frontend.html?md=${project.file}`;
+      card.innerHTML = `
+        <h3>${project.title}</h3>
+        <p>${project.description}</p>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
 </body>
 </html>
-
-
-
 
