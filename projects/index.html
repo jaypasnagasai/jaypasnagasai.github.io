@@ -2,134 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Project | Jayanth Pasupulati</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> Research | Jayanth Pasupulati </title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     body {
-      font-family: 'Fira Code', sans-serif;
-      margin: 0;
-      padding: 0;
+      font-family: 'Fira Code', monospace;
       background-color: #0f0f0f;
       color: #d8d8d8;
+      padding: 2rem;
       line-height: 1.6;
-    }
-
-    header {
-      padding: 20px;
-      background-color: #121212;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      border-bottom: 1px solid #1f1f1f;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.8rem;
-      color: #00ffe0;
-    }
-
-    nav a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #ff6ec7;
-      font-weight: bold;
-      transition: color 0.2s ease;
-    }
-
-    nav a:hover {
-      color: #ffa6e3;
-    }
-
-    main {
       max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
+      margin: auto;
     }
 
-    h2 {
-      font-size: 1.3rem;
-      color: #82AAFF;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #1f1f1f;
-      padding-bottom: 4px;
+    a {
+      color: #00ffe0;
+      text-decoration: underline;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
-
-    .card {
-      display: block;
+    pre, code {
       background-color: #1c1c1c;
-      border: 1px solid #292929;
-      border-radius: 10px;
-      padding: 20px;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: block;
+      overflow-x: auto;
+      font-size: 0.95rem;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: #00ffe0;
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        margin-top: 10px;
-      }
-
-      nav a {
-        display: inline-block;
-        margin-bottom: 6px;
-      }
+    h1, h2, h3, h4 {
+      color: #82AAFF;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Jayanth Pasupulati</h1>
-    <nav>
-      <a href="../index.html">About Me</a>
-      <a href="index.html">Research</a>
-      <a href="../projects/index.html">Projects</a>
-      <a href="../media/index.html">Media</a>
-      <a href="../blog/index.html">Blog</a>
-      <a href="../contact.html">Contact</a>
-    </nav>
-  </header>
+  <div id="content">Loading...</div>
 
-  <main>
-    <h2>Research Work</h2>
-    <p>I explore the intersection of cognitive science, machine learning, and ethical AI systems. My work blends real-world problem solving with academic rigor.</p>
-
-    <div class="grid">
-      <div class="card">
-        <h3>Cognitive AI Models</h3>
-        <div id="md-content">Loading...</div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Load Marked.js to parse markdown -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    fetch('./pages/main.md')
-      .then(response => response.text())
-      .then(markdown => {
-        const html = marked.parse(markdown);
-        document.getElementById('md-content').innerHTML = html;
-      })
-      .catch(error => {
-        document.getElementById('md-content').innerText = 'Error loading markdown content.';
-        console.error(error);
-      });
+    const params = new URLSearchParams(window.location.search);
+    const mdFile = params.get("md");
+
+    if (mdFile) {
+      fetch(`pages/${mdFile}`)
+        .then(res => {
+          if (!res.ok) throw new Error("File not found");
+          return res.text();
+        })
+        .then(text => {
+          document.getElementById('content').innerHTML = marked.parse(text);
+        })
+        .catch(err => {
+          document.getElementById('content').innerText = '❌ Error loading Markdown file: ' + err.message;
+        });
+    } else {
+      document.getElementById('content').innerText = 'No Markdown file specified. Use ?md=filename.md';
+    }
   </script>
 </body>
 </html>
