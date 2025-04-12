@@ -110,11 +110,27 @@
     <p>I explore the intersection of cognitive science, machine learning, and ethical AI systems. My work blends real-world problem solving with academic rigor.</p>
 
     <div class="grid">
-      <a class="card" href="frontend.html?md=main.md">
+      <div class="card">
         <h3>Cognitive AI Models</h3>
-        <p>Exploring computational frameworks inspired by human cognition.</p>
-      </a>
+        <div id="md-content">Loading...</div>
+      </div>
     </div>
   </main>
+
+  <!-- Load Marked.js to parse markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    fetch('./pages/main.md')
+      .then(response => response.text())
+      .then(markdown => {
+        const html = marked.parse(markdown);
+        document.getElementById('md-content').innerHTML = html;
+      })
+      .catch(error => {
+        document.getElementById('md-content').innerText = 'Error loading markdown content.';
+        console.error(error);
+      });
+  </script>
 </body>
 </html>
+
