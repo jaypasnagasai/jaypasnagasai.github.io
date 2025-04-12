@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title> Project | Jayanth Pasupulati</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: 'Fira Code', monospace;
+      background-color: #0f0f0f;
+      color: #d8d8d8;
+      padding: 2rem;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    a {
+      color: #00ffe0;
+      text-decoration: underline;
+    }
+
+    pre, code {
+      background-color: #1c1c1c;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: block;
+      overflow-x: auto;
+      font-size: 0.95rem;
+    }
+
+    h1, h2, h3, h4 {
+      color: #82AAFF;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">Loading...</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const mdFile = params.get("md");
+
+    if (mdFile) {
+      fetch(`../pages/${mdFile}`)
+        .then(res => res.text())
+        .then(text => {
+          document.getElementById('content').innerHTML = marked.parse(text);
+        })
+        .catch(() => {
+          document.getElementById('content').innerText = 'Error loading Markdown file.';
+        });
+    } else {
+      document.getElementById('content').innerText = 'No Markdown file specified. Use ?md=filename.md';
+    }
+  </script>
+</body>
+</html>
