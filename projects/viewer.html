@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Notebook Viewer | Jayanth Pasupulati</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viewer | Jayanth Pasupulati</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github-dark.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -11,10 +11,10 @@
   <style>
     body {
       font-family: 'Fira Code', monospace;
-      margin: 0;
-      padding: 0;
       background-color: #0f0f0f;
       color: #d8d8d8;
+      margin: 0;
+      padding: 0;
       line-height: 1.6;
     }
 
@@ -58,11 +58,6 @@
       position: relative;
     }
 
-    code {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.95em;
-    }
-
     .copy-btn {
       position: absolute;
       top: 10px;
@@ -75,7 +70,17 @@
       font-size: 0.75rem;
       font-family: 'Fira Code', monospace;
       cursor: pointer;
-      z-index: 10;
+    }
+
+    code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95em;
+    }
+
+    h2 {
+      color: #82AAFF;
+      border-bottom: 1px solid #1f1f1f;
+      padding-bottom: 4px;
     }
   </style>
 </head>
@@ -92,48 +97,75 @@
     </nav>
   </header>
 
-  <main id="content">Loading markdown...</main>
+  <main id="viewer">Loading...</main>
 
   <script>
-    async function loadMarkdown() {
+    async function loadFile() {
       const params = new URLSearchParams(window.location.search);
       const file = params.get("file");
-      const contentDiv = document.getElementById("content");
+      const viewer = document.getElementById("viewer");
 
       if (!file) {
-        contentDiv.textContent = "No file specified.";
+        viewer.innerText = "No file specified.";
         return;
       }
 
       try {
         const res = await fetch(file);
-        const mdText = await res.text();
-        const html = marked.parse(mdText, {
-          highlight: function(code, lang) {
-            return hljs.highlightAuto(code, [lang]).value;
-          }
-        });
+        if (!res.ok) throw new Error("File not found");
+        const contentType = file.endsWith(".ipynb") ? "notebook" : "markdown";
+        const raw = await res.text();
 
-        contentDiv.innerHTML = html;
-        addCopyButtons(); // Call copy button injection after rendering
+        if (contentType === "markdown") {
+          const html = marked.parse(raw);
+          viewer.innerHTML = html;
+          highlightAndCopyButtons();
+        } else {
+          const notebook = JSON.parse(raw);
+          renderNotebook(notebook);
+        }
       } catch (e) {
-        contentDiv.textContent = "Failed to load file.";
+        viewer.innerText = "Failed to load file.";
         console.error(e);
       }
     }
 
-    function addCopyButtons() {
-      document.querySelectorAll("pre code").forEach(codeBlock => {
-        const pre = codeBlock.parentElement;
+    function renderNotebook(notebook) {
+      const viewer = document.getElementById("viewer");
+      viewer.innerHTML = "";
 
+      notebook.cells.forEach(cell => {
+        if (cell.cell_type === "markdown") {
+          const md = cell.source.join("");
+          const html = marked.parse(md);
+          const div = document.createElement("div");
+          div.innerHTML = html;
+          viewer.appendChild(div);
+        } else if (cell.cell_type === "code") {
+          const pre = document.createElement("pre");
+          const code = document.createElement("code");
+          code.textContent = cell.source.join("");
+          pre.appendChild(code);
+          viewer.appendChild(pre);
+        }
+      });
+
+      highlightAndCopyButtons();
+    }
+
+    function highlightAndCopyButtons() {
+      document.querySelectorAll("pre code").forEach(code => {
+        hljs.highlightElement(code);
+
+        const pre = code.parentElement;
         const button = document.createElement("button");
         button.className = "copy-btn";
-        button.textContent = "Copy";
+        button.innerText = "Copy";
 
         button.addEventListener("click", () => {
-          navigator.clipboard.writeText(codeBlock.innerText).then(() => {
-            button.textContent = "Copied!";
-            setTimeout(() => (button.textContent = "Copy"), 1500);
+          navigator.clipboard.writeText(code.textContent).then(() => {
+            button.innerText = "Copied!";
+            setTimeout(() => (button.innerText = "Copy"), 1500);
           });
         });
 
@@ -141,7 +173,7 @@
       });
     }
 
-    loadMarkdown();
+    loadFile();
   </script>
 </body>
 </html>
