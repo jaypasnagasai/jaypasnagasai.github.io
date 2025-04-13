@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Notebook Viewer | Jayanth Pasupulati</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github-dark.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: 'Fira Code', monospace;
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f;
+      color: #d8d8d8;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 20px;
+      background-color: #121212;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #00ffe0;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #ff6ec7;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #ffa6e3;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    pre {
+      background-color: #1c1c1c;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+    }
+
+    img {
+      max-width: 100%;
+      margin-top: 10px;
+      border: 1px solid #333;
+      border-radius: 8px;
+    }
+
+    .cell {
+      margin-bottom: 30px;
+    }
+
+    /* ✅ Add spacing between stacked output blocks */
+    .cell > pre,
+    .cell > img {
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    /* ✅ Add spacing between consecutive <pre> blocks inside the same cell */
+    .cell pre + pre {
+      margin-top: 16px;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 8px;
+      background-color: #282828;
+      color: #d8d8d8;
+      border: 1px solid #444;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: background-color 0.2s ease;
+    }
+
+    .copy-button:hover {
+      background-color: #3a3a3a;
+    }
+
+    /* ✅ Remove highlight.js styling borders and backgrounds */
+    pre,
+    code,
+    pre code,
+    code.hljs,
+    pre.hljs,
+    pre code.hljs {
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+      margin: 0 !important;
+    }
+
+    pre code {
+      background: transparent !important;
+    }
+
+    pre.hljs {
+      border: none;
+      box-shadow: none;
+      padding: 10px;
+      margin: 0;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jayanth Pasupulati</h1>
+    <nav>
+      <a href="../index.html">About Me</a>
+      <a href="index.html">Research</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../media/index.html">Media</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="content">Loading...</div>
+  </main>
+
+  <!-- ✅ Highlight.js for syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
+  <script>
+    hljs.highlightAll();
+  </script>
+
+  <script>
+    function renderNotebook(json) {
+      const contentDiv = document.getElementById('content');
+      contentDiv.innerHTML = '';
+      json.cells.forEach(cell => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+
+        if (cell.cell_type === 'markdown') {
+          cellDiv.innerHTML = marked.parse(cell.source.join(''));
+        } else if (cell.cell_type === 'code') {
+          const pre = document.createElement('pre');
+          const code = document.createElement('code');
+          code.className = 'language-python';
+          code.textContent = cell.source.join('');
+          pre.appendChild(code);
+
+          // ✅ Copy button
+          const copyBtn = document.createElement('button');
+          copyBtn.textContent = 'Copy';
+          copyBtn.className = 'copy-button';
+          copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(code.textContent).then(() => {
+              copyBtn.textContent = 'Copied!';
+              setTimeout(() => (copyBtn.textContent = 'Copy'), 1500);
+            });
+          });
+          pre.appendChild(copyBtn);
+
+          cellDiv.appendChild(pre);
+          hljs.highlightElement(code);
+
+          if (cell.outputs) {
+            cell.outputs.forEach(output => {
+              const hasImage = output.data && output.data['image/png'];
+              const hasText = output.text && output.text.length;
+
+              // ✅ Only render warning/text output if no image
+              if (hasText && !hasImage) {
+                const outputStr = output.text.join('');
+                if (!outputStr.includes('MatplotlibDeprecationWarning')) {
+                  const outPre = document.createElement('pre');
+                  outPre.textContent = outputStr;
+                  cellDiv.appendChild(outPre);
+                }
+              }
+
+              if (output.data) {
+                if (output.data['text/plain'] && !hasImage) {
+                  const outPre = document.createElement('pre');
+                  outPre.textContent = output.data['text/plain'].join('');
+                  cellDiv.appendChild(outPre);
+                }
+                if (output.data['image/png']) {
+                  const img = document.createElement('img');
+                  img.src = 'data:image/png;base64,' + output.data['image/png'];
+                  cellDiv.appendChild(img);
+                }
+              }
+            });
+          }
+        }
+
+        contentDiv.appendChild(cellDiv);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const file = urlParams.get('file');
+      const contentDiv = document.getElementById('content');
+
+      if (!file) {
+        contentDiv.textContent = "No file specified.";
+        return;
+      }
+
+      const ext = file.split('.').pop().toLowerCase();
+
+      fetch(file)
+        .then(response => {
+          if (!response.ok) throw new Error("File not found.");
+          return ext === 'ipynb' ? response.json() : response.text();
+        })
+        .then(data => {
+          if (ext === 'md') {
+            contentDiv.innerHTML = marked.parse(data);
+            hljs.highlightAll();
+          } else if (ext === 'ipynb') {
+            renderNotebook(data);
+          } else {
+            contentDiv.textContent = "Unsupported file type.";
+          }
+        })
+        .catch(error => {
+          contentDiv.textContent = "Error: " + error.message;
+        });
+    });
+  </script>
+</body>
+</html>
+
+
