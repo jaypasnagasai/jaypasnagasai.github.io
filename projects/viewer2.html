@@ -112,11 +112,10 @@
     <div id="content">Loading...</div>
   </main>
 
-  <!-- ✅ Load Highlight.js core + register Python explicitly -->
-  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/core.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/languages/python.min.js"></script>
+  <!-- ✅ Working Highlight.js full bundle with auto language support -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
   <script>
-    hljs.registerLanguage('python', window.hljsDefinePython);
+    hljs.highlightAll();
   </script>
 
   <script>
@@ -149,7 +148,7 @@
           pre.appendChild(copyBtn);
 
           cellDiv.appendChild(pre);
-          if (window.hljs) hljs.highlightElement(code);
+          hljs.highlightElement(code);
 
           if (cell.outputs) {
             cell.outputs.forEach(output => {
@@ -197,7 +196,7 @@
         .then(data => {
           if (ext === 'md') {
             contentDiv.innerHTML = marked.parse(data);
-            if (window.hljs) hljs.highlightAll();
+            hljs.highlightAll();
           } else if (ext === 'ipynb') {
             renderNotebook(data);
           } else {
