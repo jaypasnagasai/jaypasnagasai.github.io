@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title> Post | JayLogs </title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github-dark.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="metadata.js"></script>
   <style>
@@ -74,11 +75,31 @@
       padding: 10px;
       overflow-x: auto;
       border-radius: 6px;
+      margin-top: 16px;
+      position: relative;
     }
 
     .post-content code {
       font-family: 'Fira Code', monospace;
       color: #ffb86c;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 8px;
+      background-color: #282828;
+      color: #d8d8d8;
+      border: 1px solid #444;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .copy-button:hover {
+      background-color: #3a3a3a;
     }
 
     a {
@@ -146,8 +167,34 @@
     </div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
   <script>
-    // Configure marked.js
+    hljs.highlightAll();
+
+    function enhanceMarkdownCodeBlocks() {
+      const blocks = document.querySelectorAll('pre > code');
+      blocks.forEach(code => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+        const pre = code.parentElement;
+
+        const copyBtn = document.createElement('button');
+        copyBtn.textContent = 'Copy';
+        copyBtn.className = 'copy-button';
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(code.textContent).then(() => {
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => (copyBtn.textContent = 'Copy'), 1500);
+          });
+        });
+
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+        wrapper.appendChild(copyBtn);
+        hljs.highlightElement(code);
+      });
+    }
+
     marked.setOptions({
       breaks: true,
       gfm: true,
@@ -185,6 +232,7 @@
       })
       .then(markdown => {
         document.getElementById('content').innerHTML = marked.parse(markdown.trim());
+        setTimeout(enhanceMarkdownCodeBlocks, 0); // Wait for DOM update before enhancing
       })
       .catch(err => {
         document.getElementById('content').innerHTML = `<div class="error">Could not load the post <code>${file}</code>. (${err.message})</div>`;
