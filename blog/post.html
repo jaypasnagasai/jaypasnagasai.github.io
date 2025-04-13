@@ -71,17 +71,20 @@
     }
 
     .post-content pre {
-      background-color: #1f1f1f;
+      background-color: #1a1a1a;
       padding: 10px;
       overflow-x: auto;
       border-radius: 6px;
       margin-top: 16px;
+      border: none;
+      box-shadow: none;
       position: relative;
     }
 
     .post-content code {
       font-family: 'Fira Code', monospace;
       color: #ffb86c;
+      background: transparent !important;
     }
 
     .copy-button {
@@ -167,20 +170,27 @@
     </div>
   </main>
 
+  <!-- highlight.js -->
   <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
   <script>
     hljs.highlightAll();
 
     function enhanceMarkdownCodeBlocks() {
-      const blocks = document.querySelectorAll('pre > code');
-      blocks.forEach(code => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'code-block-wrapper';
+      const codeBlocks = document.querySelectorAll('pre > code');
+      codeBlocks.forEach(code => {
         const pre = code.parentElement;
 
+        // Avoid reprocessing
+        if (pre.parentElement.classList.contains('code-block-wrapper')) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+        wrapper.style.position = 'relative';
+
         const copyBtn = document.createElement('button');
-        copyBtn.textContent = 'Copy';
         copyBtn.className = 'copy-button';
+        copyBtn.textContent = 'Copy';
+
         copyBtn.addEventListener('click', () => {
           navigator.clipboard.writeText(code.textContent).then(() => {
             copyBtn.textContent = 'Copied!';
@@ -191,6 +201,7 @@
         pre.parentNode.insertBefore(wrapper, pre);
         wrapper.appendChild(pre);
         wrapper.appendChild(copyBtn);
+
         hljs.highlightElement(code);
       });
     }
@@ -212,7 +223,7 @@
     let title = file.replace(/[-_]/g, ' ').replace(/\.md$/, '').replace(/\b\w/g, l => l.toUpperCase());
     let date = "";
 
-    // Get post metadata
+    // Metadata
     let match = null;
     if (typeof posts !== 'undefined' && Array.isArray(posts)) {
       match = posts.find(p => p.file === file || p.file === `posts/${file}`);
@@ -232,7 +243,7 @@
       })
       .then(markdown => {
         document.getElementById('content').innerHTML = marked.parse(markdown.trim());
-        setTimeout(enhanceMarkdownCodeBlocks, 0); // Wait for DOM update before enhancing
+        setTimeout(enhanceMarkdownCodeBlocks, 0);
       })
       .catch(err => {
         document.getElementById('content').innerHTML = `<div class="error">Could not load the post <code>${file}</code>. (${err.message})</div>`;
