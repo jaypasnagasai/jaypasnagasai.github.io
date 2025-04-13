@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Notebook Viewer | Jayanth Pasupulati</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: 'Fira Code', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f;
+      color: #d8d8d8;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 20px;
+      background-color: #121212;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #00ffe0;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #ff6ec7;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #ffa6e3;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      color: #82AAFF;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #1f1f1f;
+      padding-bottom: 4px;
+    }
+
+    a {
+      color: #00ffe0;
+    }
+
+    pre, code {
+      background-color: #1c1c1c;
+      padding: 6px 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+      display: block;
+      white-space: pre-wrap;
+    }
+
+    .cell {
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        margin-top: 10px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin-bottom: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jayanth Pasupulati</h1>
+    <nav>
+      <a href="../index.html">About Me</a>
+      <a href="index.html">Research</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../media/index.html">Media</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="content">Loading...</div>
+  </main>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const file = urlParams.get('file');
+
+    if (file) {
+      const ext = file.split('.').pop().toLowerCase();
+      
+      fetch(file)
+        .then(response => {
+          if (!response.ok) throw new Error("File not found.");
+          return ext === 'ipynb' ? response.json() : response.text();
+        })
+        .then(data => {
+          const contentDiv = document.getElementById('content');
+          contentDiv.innerHTML = '';
+
+          if (ext === 'md') {
+            contentDiv.innerHTML = marked.parse(data);
+          } else if (ext === 'ipynb') {
+            data.cells.forEach(cell => {
+              const cellDiv = document.createElement('div');
+              cellDiv.classList.add('cell');
+
+              if (cell.cell_type === 'markdown') {
+                cellDiv.innerHTML = marked.parse(cell.source.join(''));
+              } else if (cell.cell_type === 'code') {
+                const codeBlock = document.createElement('pre');
+                codeBlock.textContent = cell.source.join('');
+                cellDiv.appendChild(codeBlock);
+
+                if (cell.outputs) {
+                  cell.outputs.forEach(output => {
+                    const outputBlock = document.createElement('pre');
+                    if (output.text) {
+                      outputBlock.textContent = output.text.join('');
+                    } else if (output.data && output.data['text/plain']) {
+                      outputBlock.textContent = output.data['text/plain'].join('');
+                    }
+                    cellDiv.appendChild(outputBlock);
+                  });
+                }
+              }
+
+              contentDiv.appendChild(cellDiv);
+            });
+          }
+        })
+        .catch(error => {
+          document.getElementById('content').innerText = error.message;
+        });
+    } else {
+      document.getElementById('content').innerText = "No file specified.";
+    }
+  </script>
+</body>
+</html>
