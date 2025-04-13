@@ -5,7 +5,8 @@
   <title>Notebook Viewer | Jayanth Pasupulati</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github-dark.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github-dark.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     body {
       font-family: 'Fira Code', monospace;
@@ -50,18 +51,6 @@
       padding: 0 20px;
     }
 
-    h2 {
-      font-size: 1.3rem;
-      color: #82AAFF;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #1f1f1f;
-      padding-bottom: 4px;
-    }
-
-    a {
-      color: #00ffe0;
-    }
-
     pre {
       background-color: #1c1c1c;
       padding: 10px;
@@ -103,9 +92,8 @@
     <div id="content">Loading...</div>
   </main>
 
-  <!-- highlight.js + marked -->
+  <!-- ✅ Load Highlight.js properly using full UMD bundle -->
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/common.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     function renderNotebook(json) {
       const contentDiv = document.getElementById('content');
@@ -151,7 +139,7 @@
       });
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const file = urlParams.get('file');
       const contentDiv = document.getElementById('content');
