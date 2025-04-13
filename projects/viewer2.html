@@ -5,8 +5,7 @@
   <title>Notebook Viewer | Jayanth Pasupulati</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github-dark.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github-dark.min.css">
   <style>
     body {
       font-family: 'Fira Code', monospace;
@@ -85,16 +84,6 @@
     .cell {
       margin-bottom: 30px;
     }
-
-    @media (max-width: 768px) {
-      nav {
-        margin-top: 10px;
-      }
-      nav a {
-        display: inline-block;
-        margin-bottom: 6px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -114,78 +103,84 @@
     <div id="content">Loading...</div>
   </main>
 
-  <!-- highlight.js + logic -->
-  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/highlight.min.js"></script>
+  <!-- highlight.js + marked -->
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/common.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    window.addEventListener('load', () => {
+    function renderNotebook(json) {
+      const contentDiv = document.getElementById('content');
+      contentDiv.innerHTML = '';
+      json.cells.forEach(cell => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+
+        if (cell.cell_type === 'markdown') {
+          cellDiv.innerHTML = marked.parse(cell.source.join(''));
+        } else if (cell.cell_type === 'code') {
+          const pre = document.createElement('pre');
+          const code = document.createElement('code');
+          code.className = 'language-python';
+          code.textContent = cell.source.join('');
+          pre.appendChild(code);
+          cellDiv.appendChild(pre);
+          if (window.hljs) hljs.highlightElement(code);
+
+          if (cell.outputs) {
+            cell.outputs.forEach(output => {
+              if (output.text) {
+                const outPre = document.createElement('pre');
+                outPre.textContent = output.text.join('');
+                cellDiv.appendChild(outPre);
+              } else if (output.data) {
+                if (output.data['text/plain']) {
+                  const outPre = document.createElement('pre');
+                  outPre.textContent = output.data['text/plain'].join('');
+                  cellDiv.appendChild(outPre);
+                }
+                if (output.data['image/png']) {
+                  const img = document.createElement('img');
+                  img.src = 'data:image/png;base64,' + output.data['image/png'];
+                  cellDiv.appendChild(img);
+                }
+              }
+            });
+          }
+        }
+
+        contentDiv.appendChild(cellDiv);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const file = urlParams.get('file');
+      const contentDiv = document.getElementById('content');
 
-      function renderNotebook(data) {
-        const contentDiv = document.getElementById('content');
-        contentDiv.innerHTML = '';
-        data.cells.forEach(cell => {
-          const cellDiv = document.createElement('div');
-          cellDiv.classList.add('cell');
+      if (!file) {
+        contentDiv.textContent = "No file specified.";
+        return;
+      }
 
-          if (cell.cell_type === 'markdown') {
-            cellDiv.innerHTML = marked.parse(cell.source.join(''));
-          } else if (cell.cell_type === 'code') {
-            const pre = document.createElement('pre');
-            const code = document.createElement('code');
-            code.className = 'language-python';
-            code.textContent = cell.source.join('');
-            pre.appendChild(code);
-            cellDiv.appendChild(pre);
-            if (window.hljs) hljs.highlightElement(code);
+      const ext = file.split('.').pop().toLowerCase();
 
-            if (cell.outputs) {
-              cell.outputs.forEach(output => {
-                if (output.text) {
-                  const outPre = document.createElement('pre');
-                  outPre.textContent = output.text.join('');
-                  cellDiv.appendChild(outPre);
-                } else if (output.data) {
-                  if (output.data['text/plain']) {
-                    const outPre = document.createElement('pre');
-                    outPre.textContent = output.data['text/plain'].join('');
-                    cellDiv.appendChild(outPre);
-                  }
-                  if (output.data['image/png']) {
-                    const img = document.createElement('img');
-                    img.src = 'data:image/png;base64,' + output.data['image/png'];
-                    cellDiv.appendChild(img);
-                  }
-                }
-              });
-            }
+      fetch(file)
+        .then(response => {
+          if (!response.ok) throw new Error("File not found.");
+          return ext === 'ipynb' ? response.json() : response.text();
+        })
+        .then(data => {
+          if (ext === 'md') {
+            contentDiv.innerHTML = marked.parse(data);
+            if (window.hljs) hljs.highlightAll();
+          } else if (ext === 'ipynb') {
+            renderNotebook(data);
+          } else {
+            contentDiv.textContent = "Unsupported file type.";
           }
-
-          contentDiv.appendChild(cellDiv);
+        })
+        .catch(error => {
+          contentDiv.textContent = "Error: " + error.message;
         });
-      }
-
-      if (file) {
-        const ext = file.split('.').pop().toLowerCase();
-        fetch(file)
-          .then(response => {
-            if (!response.ok) throw new Error("File not found.");
-            return ext === 'ipynb' ? response.json() : response.text();
-          })
-          .then(data => {
-            if (ext === 'md') {
-              document.getElementById('content').innerHTML = marked.parse(data);
-              if (window.hljs) hljs.highlightAll();
-            } else if (ext === 'ipynb') {
-              renderNotebook(data);
-            }
-          })
-          .catch(err => {
-            document.getElementById('content').innerText = err.message;
-          });
-      } else {
-        document.getElementById('content').innerText = "No file specified.";
-      }
     });
   </script>
 </body>
