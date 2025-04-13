@@ -112,8 +112,13 @@
     <div id="content">Loading...</div>
   </main>
 
-  <!-- ✅ Load Highlight.js properly using full UMD bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/common.min.js"></script>
+  <!-- ✅ Load Highlight.js core + register Python explicitly -->
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/languages/python.min.js"></script>
+  <script>
+    hljs.registerLanguage('python', window.hljsDefinePython);
+  </script>
+
   <script>
     function renderNotebook(json) {
       const contentDiv = document.getElementById('content');
@@ -206,6 +211,7 @@
   </script>
 </body>
 </html>
+
 
 
 
