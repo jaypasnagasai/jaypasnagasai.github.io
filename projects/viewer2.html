@@ -5,7 +5,8 @@
   <title>Notebook Viewer | Jayanth Pasupulati</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
   <style>
     body {
       font-family: 'Fira Code', sans-serif;
@@ -13,7 +14,8 @@
       padding: 0;
       background-color: #0f0f0f;
       color: #d8d8d8;
-      line-height: 1.6;
+      line-height: 1.7;
+      font-size: 16px;
     }
 
     header {
@@ -73,6 +75,11 @@
 
     .cell {
       margin-bottom: 20px;
+      padding: 1rem;
+      background-color: #1a1a1a;
+      border-left: 4px solid #00ffe0;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 255, 224, 0.1);
     }
 
     @media (max-width: 768px) {
@@ -131,7 +138,10 @@
                 cellDiv.innerHTML = marked.parse(cell.source.join(''));
               } else if (cell.cell_type === 'code') {
                 const codeBlock = document.createElement('pre');
-                codeBlock.textContent = cell.source.join('');
+                const codeTag = document.createElement('code');
+                codeTag.className = 'language-python';
+                codeTag.textContent = cell.source.join('');
+                codeBlock.appendChild(codeTag);
                 cellDiv.appendChild(codeBlock);
 
                 if (cell.outputs) {
@@ -149,6 +159,7 @@
 
               contentDiv.appendChild(cellDiv);
             });
+            hljs.highlightAll();
           }
         })
         .catch(error => {
