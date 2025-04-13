@@ -59,15 +59,6 @@
       position: relative;
     }
 
-    /* 🔹 Differentiates output blocks from code blocks */
-    pre.output {
-      background-color: #181818;
-      border-left: 4px solid #444;
-      padding: 10px 12px;
-      margin-top: 16px;
-      margin-bottom: 12px;
-    }
-
     code {
       font-family: 'Fira Code', monospace;
       font-size: 0.95rem;
@@ -84,12 +75,14 @@
       margin-bottom: 30px;
     }
 
+    /* ✅ Add spacing between stacked output blocks */
     .cell > pre,
     .cell > img {
       margin-top: 12px;
       margin-bottom: 12px;
     }
 
+    /* ✅ Add spacing between consecutive <pre> blocks inside the same cell */
     .cell pre + pre {
       margin-top: 16px;
     }
@@ -113,6 +106,7 @@
       background-color: #3a3a3a;
     }
 
+    /* ✅ Remove highlight.js styling borders and backgrounds */
     pre,
     code,
     pre code,
@@ -155,6 +149,7 @@
     <div id="content">Loading...</div>
   </main>
 
+  <!-- ✅ Highlight.js for syntax highlighting -->
   <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
   <script>
     hljs.highlightAll();
@@ -177,6 +172,7 @@
           code.textContent = cell.source.join('');
           pre.appendChild(code);
 
+          // ✅ Copy button
           const copyBtn = document.createElement('button');
           copyBtn.textContent = 'Copy';
           copyBtn.className = 'copy-button';
@@ -196,11 +192,11 @@
               const hasImage = output.data && output.data['image/png'];
               const hasText = output.text && output.text.length;
 
+              // ✅ Only render warning/text output if no image
               if (hasText && !hasImage) {
                 const outputStr = output.text.join('');
                 if (!outputStr.includes('MatplotlibDeprecationWarning')) {
                   const outPre = document.createElement('pre');
-                  outPre.className = 'output'; // ✅ apply output style
                   outPre.textContent = outputStr;
                   cellDiv.appendChild(outPre);
                 }
@@ -209,7 +205,6 @@
               if (output.data) {
                 if (output.data['text/plain'] && !hasImage) {
                   const outPre = document.createElement('pre');
-                  outPre.className = 'output'; // ✅ apply output style
                   outPre.textContent = output.data['text/plain'].join('');
                   cellDiv.appendChild(outPre);
                 }
@@ -261,5 +256,4 @@
   </script>
 </body>
 </html>
-
 
