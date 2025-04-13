@@ -75,6 +75,13 @@
       margin-bottom: 30px;
     }
 
+    /* ✅ Add spacing between stacked output blocks */
+    .cell > pre,
+    .cell > img {
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
     .copy-button {
       position: absolute;
       top: 8px;
@@ -180,11 +187,14 @@
               const hasImage = output.data && output.data['image/png'];
               const hasText = output.text && output.text.length;
 
-              // ✅ Only render text output if no image is present
+              // ✅ Only render warning/text output if no image
               if (hasText && !hasImage) {
-                const outPre = document.createElement('pre');
-                outPre.textContent = output.text.join('');
-                cellDiv.appendChild(outPre);
+                const outputStr = output.text.join('');
+                if (!outputStr.includes('MatplotlibDeprecationWarning')) {
+                  const outPre = document.createElement('pre');
+                  outPre.textContent = outputStr;
+                  cellDiv.appendChild(outPre);
+                }
               }
 
               if (output.data) {
@@ -241,6 +251,5 @@
   </script>
 </body>
 </html>
-
 
 
