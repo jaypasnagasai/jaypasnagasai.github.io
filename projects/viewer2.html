@@ -73,16 +73,16 @@
 
     .cell {
       margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #2a2a2a; /* ✅ Visual separation for cells */
     }
 
-    /* ✅ Add spacing between stacked output blocks */
     .cell > pre,
     .cell > img {
       margin-top: 12px;
       margin-bottom: 12px;
     }
 
-    /* ✅ Add spacing between consecutive <pre> blocks inside the same cell */
     .cell pre + pre {
       margin-top: 16px;
     }
@@ -106,7 +106,6 @@
       background-color: #3a3a3a;
     }
 
-    /* ✅ Remove highlight.js styling borders and backgrounds */
     pre,
     code,
     pre code,
@@ -172,7 +171,6 @@
           code.textContent = cell.source.join('');
           pre.appendChild(code);
 
-          // ✅ Copy button
           const copyBtn = document.createElement('button');
           copyBtn.textContent = 'Copy';
           copyBtn.className = 'copy-button';
@@ -192,7 +190,6 @@
               const hasImage = output.data && output.data['image/png'];
               const hasText = output.text && output.text.length;
 
-              // ✅ Only render warning/text output if no image
               if (hasText && !hasImage) {
                 const outputStr = output.text.join('');
                 if (!outputStr.includes('MatplotlibDeprecationWarning')) {
