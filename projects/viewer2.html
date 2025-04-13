@@ -114,56 +114,56 @@
     <div id="content">Loading...</div>
   </main>
 
-  <!-- Load highlight.js at the bottom -->
+  <!-- highlight.js + logic -->
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/lib/highlight.min.js"></script>
   <script>
-    function renderNotebook(data) {
-      const contentDiv = document.getElementById('content');
-      contentDiv.innerHTML = '';
-      data.cells.forEach(cell => {
-        const cellDiv = document.createElement('div');
-        cellDiv.classList.add('cell');
-
-        if (cell.cell_type === 'markdown') {
-          cellDiv.innerHTML = marked.parse(cell.source.join(''));
-        } else if (cell.cell_type === 'code') {
-          const pre = document.createElement('pre');
-          const code = document.createElement('code');
-          code.className = 'language-python';
-          code.textContent = cell.source.join('');
-          pre.appendChild(code);
-          cellDiv.appendChild(pre);
-
-          // Render outputs
-          if (cell.outputs) {
-            cell.outputs.forEach(output => {
-              if (output.text) {
-                const outPre = document.createElement('pre');
-                outPre.textContent = output.text.join('');
-                cellDiv.appendChild(outPre);
-              } else if (output.data) {
-                if (output.data['text/plain']) {
-                  const outPre = document.createElement('pre');
-                  outPre.textContent = output.data['text/plain'].join('');
-                  cellDiv.appendChild(outPre);
-                }
-                if (output.data['image/png']) {
-                  const img = document.createElement('img');
-                  img.src = 'data:image/png;base64,' + output.data['image/png'];
-                  cellDiv.appendChild(img);
-                }
-              }
-            });
-          }
-        }
-
-        contentDiv.appendChild(cellDiv);
-      });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('load', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const file = urlParams.get('file');
+
+      function renderNotebook(data) {
+        const contentDiv = document.getElementById('content');
+        contentDiv.innerHTML = '';
+        data.cells.forEach(cell => {
+          const cellDiv = document.createElement('div');
+          cellDiv.classList.add('cell');
+
+          if (cell.cell_type === 'markdown') {
+            cellDiv.innerHTML = marked.parse(cell.source.join(''));
+          } else if (cell.cell_type === 'code') {
+            const pre = document.createElement('pre');
+            const code = document.createElement('code');
+            code.className = 'language-python';
+            code.textContent = cell.source.join('');
+            pre.appendChild(code);
+            cellDiv.appendChild(pre);
+            if (window.hljs) hljs.highlightElement(code);
+
+            if (cell.outputs) {
+              cell.outputs.forEach(output => {
+                if (output.text) {
+                  const outPre = document.createElement('pre');
+                  outPre.textContent = output.text.join('');
+                  cellDiv.appendChild(outPre);
+                } else if (output.data) {
+                  if (output.data['text/plain']) {
+                    const outPre = document.createElement('pre');
+                    outPre.textContent = output.data['text/plain'].join('');
+                    cellDiv.appendChild(outPre);
+                  }
+                  if (output.data['image/png']) {
+                    const img = document.createElement('img');
+                    img.src = 'data:image/png;base64,' + output.data['image/png'];
+                    cellDiv.appendChild(img);
+                  }
+                }
+              });
+            }
+          }
+
+          contentDiv.appendChild(cellDiv);
+        });
+      }
 
       if (file) {
         const ext = file.split('.').pop().toLowerCase();
@@ -175,11 +175,10 @@
           .then(data => {
             if (ext === 'md') {
               document.getElementById('content').innerHTML = marked.parse(data);
+              if (window.hljs) hljs.highlightAll();
             } else if (ext === 'ipynb') {
               renderNotebook(data);
             }
-            // highlight after rendering
-            hljs.highlightAll();
           })
           .catch(err => {
             document.getElementById('content').innerText = err.message;
@@ -191,5 +190,6 @@
   </script>
 </body>
 </html>
+
 
 
