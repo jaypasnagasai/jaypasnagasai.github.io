@@ -94,7 +94,7 @@
       background-color: #3a3a3a;
     }
 
-    /* ✅ Remove all unwanted Highlight.js shadows, borders, outlines */
+    /* ✅ Remove highlight.js styling borders and backgrounds */
     pre,
     code,
     pre code,
@@ -109,6 +109,14 @@
 
     pre code {
       background: transparent !important;
+    }
+
+    pre.hljs {
+      border: none;
+      box-shadow: none;
+      padding: 10px;
+      margin: 0;
+      border-radius: 6px;
     }
   </style>
 </head>
@@ -129,7 +137,7 @@
     <div id="content">Loading...</div>
   </main>
 
-  <!-- ✅ Working Highlight.js full bundle with auto language support -->
+  <!-- ✅ Highlight.js for syntax highlighting -->
   <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
   <script>
     hljs.highlightAll();
@@ -152,7 +160,7 @@
           code.textContent = cell.source.join('');
           pre.appendChild(code);
 
-          // ✅ Add copy button
+          // ✅ Copy button
           const copyBtn = document.createElement('button');
           copyBtn.textContent = 'Copy';
           copyBtn.className = 'copy-button';
@@ -169,12 +177,18 @@
 
           if (cell.outputs) {
             cell.outputs.forEach(output => {
-              if (output.text) {
+              const hasImage = output.data && output.data['image/png'];
+              const hasText = output.text && output.text.length;
+
+              // ✅ Only render text output if no image is present
+              if (hasText && !hasImage) {
                 const outPre = document.createElement('pre');
                 outPre.textContent = output.text.join('');
                 cellDiv.appendChild(outPre);
-              } else if (output.data) {
-                if (output.data['text/plain']) {
+              }
+
+              if (output.data) {
+                if (output.data['text/plain'] && !hasImage) {
                   const outPre = document.createElement('pre');
                   outPre.textContent = output.data['text/plain'].join('');
                   cellDiv.appendChild(outPre);
@@ -227,8 +241,6 @@
   </script>
 </body>
 </html>
-
-
 
 
 
