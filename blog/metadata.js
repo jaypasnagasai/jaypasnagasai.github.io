@@ -1,10 +1,9 @@
 const posts = [
   {
     title: "First",
-    date: "08 May 2025",
+    date: "2025-05-08", 
     file: "first.md",
     tags: ["hobby"]
   },
 ];
-
 
