@@ -10,24 +10,20 @@
     <div class="title_left">
         <h1 style="color: #800020;">MAGPIE: A Dataset For Multi-Agent Contextual Privacy Evaluation</h1>
         <div class="author-container">
-            <div class="grid-item"><a href="https://hgaurav2k.github.io">Himanshu Gaurav Singh*</a></div>
-            <div class="grid-item"><a href=https://antonilo.github.io>Antonio Loquercio*</a></div>
-            <div class="grid-item"><a href=https://sferrazza.cc>Carmelo Sferrazza</a></div>
-            <div class="grid-item"><a href="https://janehwu.github.io">Jane Wu</a></div>
-            <div class="grid-item"><a href="https://haozhi.io">Haozhi Qi</a></div>
-            <div class="grid-item"><a href="http://people.eecs.berkeley.edu/~abbeel/">Pieter Abbeel</a></div>
-            <div class="grid-item"><a href="http://people.eecs.berkeley.edu/~malik/">Jitendra Malik</a></div>
+            <div class="grid-item"><a href="https://gurusha01.github.io">Gurusha Juneja</a></div>
+            <div class="grid-item"><a href=https://jaypasnagasai.github.io>Jayanth Pasupulati</a></div>
+            <div class="grid-item"><a href=https://wenyueh.github.io/en/>Wenyue Hua</a></div>
+            <div class="grid-item"><a href="https://alon-albalak.github.io">Alon Alabak</a></div>
+            <div class="grid-item"><a href="https://sites.cs.ucsb.edu/~william/">William Wang</a></div>       
         </div>
         <div class="mobile-author-container-1">
-            <div class="grid-item"><a href="https://hgaurav2k.github.io">Himanshu Gaurav Singh</a></div>
-            <div class="grid-item"><a href=https://antonilo.github.io>Antonio Loquercio</a></div>
-            <div class="grid-item"><a href=https://sferrazza.cc>Carlos Sferrazza</a></div>
+            <div class="grid-item"><a href="https://gurusha01.github.io">Gurusha Juneja</a></div>
+            <div class="grid-item"><a href=https://jaypasnagasai.github.io>Jayanth Pasupulati</a></div>
+            <div class="grid-item"><a href=https://wenyueh.github.io/en/>Wenyue Hua</a></div>
         </div>
         <div class="mobile-author-container-2">
-            <div class="grid-item"><a href="https://janehwu.github.io">Jane Wu</a></div>
-            <div class="grid-item"><a href="https://haozhi.io">Haozhi Qi</a></div>
-            <div class="grid-item"><a href="http://people.eecs.berkeley.edu/~abbeel/">Pieter Abbeel</a></div>
-            <div class="grid-item"><a href="http://people.eecs.berkeley.edu/~malik/">Jitendra Malik</a></div>
+            <div class="grid-item"><a href="https://alon-albalak.github.io">Alon ALabak</a></div>
+            <div class="grid-item"><a href="https://sites.cs.ucsb.edu/~william/">William Wang</a></div>
         </div>
         <div class="berkeley">
             <p style="color: #800020;">University of California, Santa Barbara</p>
@@ -43,7 +39,7 @@
                 inter-agent collaboration for tasks like scheduling, negotiation, resource allocation etc.
                 In such systems, privacy is critical, as agents often access proprietary tools and domain-specific databases requiring strict confidentiality. 
                 This paper examines whether LLM-based agents demonstrate an understanding of contextual privacy. And, if instructed, do these systems preserve inference time user privacy in non-adversarial multi-turn conversation. Existing benchmarks to evaluate contextual privacy in LLM-agents primarily assess single-turn, low-complexity tasks where private informa- tion can be easily excluded. 
-                We first present a benchmark - MAGPIE comprising 158 real-life high-stakes scenarios across 15 domains. These scenarios are designed such that complete exclusion of private data impedes task completion yet unrestricted information sharing could lead to substantial losses. 
+                We first present a benchmark - MAGPIE comprising 158 reaol-life high-stakes scenarios across 15 domains. These scenarios are designed such that complete exclusion of private data impedes task completion yet unrestricted information sharing could lead to substantial losses. 
                 We then evaluate the current state-of-the-art LLMs on (a) their understanding of contextually private data and (b) their ability to collaborate without violating user privacy. Empirical experiments demon- strate that current models, including GPT-4o and Claude-2.7-Sonnet, lack robust understanding of contextual privacy, misclassifying private data as shareable 25.2% and 43.6% of the time. 
                 In multi-turn conversations, these models disclose private information in 59.9% and 50.5% of cases even under explicit privacy instructions. Furthermore, multi-agent systems fail to complete tasks in 71% of scenarios. These results underscore that current models are not aligned towards both contextual privacy preservation and collaborative task-solving.
             </p>
@@ -52,15 +48,18 @@
 </div>
 <div id="overview">
     <div class="approach">
-        <div class="image_container">
-            <!-- <video loop autoplay muted playsinline preload="metadata">
-                <source src="web_assets/method_animation_v4.m4v" type="video/mp4">
-            </video> -->
-            <!--<img src="web_assets/approach_white.png" alt="Fine-tune curves.">-->
+        <div class="image_container" style="text-align: center;">
+            <img src="img/fig1.png" alt="fig1" height="400">
             <div class="caption">
-                <p>3-D hand-object trajectories from in-the-wild human manipulation videos are re-targeted to a robot embodiment within a
-                physics simulator, resulting in physically grounded robot data. General manipulation priors are learnt from this using
-                generative modelling of trajectories. Such representation enables sample-efficient adaptation for new downstream tasks.</p>
+                <p>Negotiation between Team Lead’s Agent and GPU Allocator’s Agent.
+                The Team Lead Agent discloses critical private information, 
+                directly exposing workforce constraints that risk employee complaints.</p>
+            </div>
+            <img src="img/fig2.png" alt="fig2" height="400">
+            <div class="caption">
+                <p>Representative scenarios from the
+                dataset include critical domains such as
+                resource allocation, where privacy breaches incur significant real-world consequences.</p>
             </div>
         </div>
     </div>
@@ -91,7 +90,7 @@
         We encode camera images using a  <a href="https://tetexiao.com/projects/real-mvp">pre-trained vision encoder</a> and use latent representations for sensorimotor sequence learning. This enables us to benefit from strong vision encoders trained on diverse Internet images. Compared to prediction in pixel space, using latent visual representations makes the task feasible. Finally, this design decouples the vision encoder from the sensorimotor context length, making 10 Hz control with 300M parameter models feasible on a physical robot.
     </p> -->
 
-    <h1 style="color: #800020;">HOP enables sample-efficient BC finetuning</h1>
+    <h1 style="color: #800020;">Data Curation</h1>
     <p>
               We train a depth-based end-to-end manipulation prior on sensorimotor trajectories extracted from human hand-object interaction videos. We find that this prior can be finetuned to downstream tasks with few demonstrations, outperforming training policies from scratch and other visual-pretraining baselines.
     </p>
@@ -107,36 +106,32 @@
                     <!-- <video loop autoplay muted playsinline preload="metadata">
                                 <source src="web_web_assets/method_animation_v4.m4v" type="video/mp4">
                             </video> -->
-                    <!--<img src="web_assets/all_tasks_3seed.png" alt="Fine-tune curves."-->
+                    <img src="img/dc.png" alt="Data Curation">
                     <div class="caption">
-                        <p>Comparison of HOP-initialized actor with baselines. HOP improves sample-efficiency of online RL across multiple tasks,
-                        particularly when the downstream task and the behaviors in the data are less aligned. Runs
-                        are averaged across three randomly chosen seeds.</p>
+                        <p>Data Curation Pipeline The dataset is generated through a multi-stage 
+                        LLM-driven pipeline where orange boxes represent LLMs and red boxes represent outputs. First LLM proposes scenarios, validated for realism/stakes by a verifier LLM. The second stage
+                        expands scenarios and generates agent names, with automated checks for task alignment.
+                        Third, agent profiles (public and private data, penalties, utilities) are iteratively refined
+                        to ensure coherence and conflict-free constraints. Finally deliverables and constraints are
+                        generated and verified against task objectives. Claude-2.7-Sonnet is used for generation and
+                        verification.</p>
                     </div>
-
-                <!--<img src="web_assets/ood_perturb.png" alt="Fine-tune curves."-->
-                <div class="caption">
-                                        <p>Evaluating RL finetuning under out-of-distribution scenarios (Left) To test grasp robustness, we apply to the grasped objects, forces in random direction equal to their weights. When initialized with HOP,
-                                        the resulting policy is more than 3x more robust compared to training PPO from scratch. (Right) We evaluate grasp
-                                        success on multiple objects from the YCB dataset that were not part of the training set. When initialized with HOP, the
-                                        resulting policy is more than 2x more robust compared to training PPO from scratch.</p>
-                </div>
                 </div>
     </div>
 
-    <h1 style="color: #800020;">Samples from sim-in-the-loop retargeting</h1>
+    <!--h1 style="color: #800020;">Samples from sim-in-the-loop retargeting</h1>
 
     <p>
         Below are example trajectories retargeted from human hand-object interaction videos to robots. This approach has the potential scale data collection for robot learning using in-the-wild videos.
-    </p>
+    </p-->
 
 
-    <h1 style="color: #800020;">Retargeting in-the-wild videos</h1>
+    <!--h1 style="color: #800020;">Retargeting in-the-wild videos</h1>
     <p>
     We provide examples of 3-D hand-object reconstructions from in-the-wild videos. We display samples of the extracted hand
     mesh and the object point cloud in the same 3-D space. While occlusions lead to increased detection noise, the higher-level details of hand-object interaction such as
     affordances, pre-grasp and post-grasp trajectories are preserved.
-    </p>
+    </p-->
 
     <!--
     <h1>Can Leverage Different Pre-training Data</h1>
@@ -168,18 +163,29 @@
     </div>
     -->
 
-    <h1 style="color: #800020;">More Demonstrations</h1>
+    <h1 style="color: #800020;">Conclusion</h1>
     <p> 
-       Following are more demonstrations of our BC-finetuned policy in the real world on a diverse set of objects.
+       Our investigation reveals critical gaps in current AI systems’ ability to preserve privacy
+       during multi-agent collaboration. While modern LLMs exhibit partial awareness of sensitive
+       information, they frequently fail to safeguard it—leaking private data in 55.27% of cases,
+       even under explicit penalty constraints. Our benchmark, comprising 158 high-stakes tasks
+       with verifiable privacy constraints, establishes a foundation for evaluating context-aware
+       privacy preservation in dynamic collaborations.
+       Future work could focus on two key improvements: (1) Building agents with built-in privacy
+       safeguards that automatically detect and protect sensitive information during conversations,
+       adapting to different collaboration contexts. (2) Training agents using the penalty-reward
+       system from our dataset to practice resisting privacy leaks in simulated scenarios, balancing
+       task completion with data protection. Together, these approaches would address both
+       accidental leaks and intentional probing while maintaining efficient collaboration.
     </p>   
 
     
-    <h1 style="color: #800020;">Acknowledgements</h1>
+    <!--h1 style="color: #800020;">Acknowledgements</h1>
     <p>
         This work was supported by the DARPA Machine Common Sense program, the DARPA Transfer from Imprecise and Abstract Models to Autonomous Technologies (TIAMAT) program, and by the ONR MURI award N00014-21-1-2801. This work was also funded by ONR MURI N00014-22-1-2773. We thank Adhithya Iyer for assistance with teleoperation systems, Phillip Wu for setting-up the real robot, and Raven Huang, Jathushan Rajasegaran and Yutong Bai for helpful discussions
     </p>
     <h1></h1>
-    <h1></h1>
+    <h1></h1-->
 
         <h1 style="color: #800020;">BibTeX</h1>
             <p class="bibtex">
