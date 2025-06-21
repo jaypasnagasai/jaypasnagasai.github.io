@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vapi Voice Agent</title>
+  <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web"></script>
+</head>
+<body>
+  <h1>🎤 Vapi Voice Agent Test</h1>
+  <button onclick="start()">Start</button>
+  <button onclick="stop()">Stop</button>
+  <p id="status">Status: Not started</p>
+
+  <script>
+    const vapi = new window.Vapi.default({
+      apiKey: "e56e5048-3904-451a-9cac-f5e6daad08be"
+    });
+
+    vapi.on("call-start", () => {
+      document.getElementById("status").textContent = "Talking to assistant...";
+    });
+
+    vapi.on("call-end", () => {
+      document.getElementById("status").textContent = "Call ended.";
+    });
+
+    vapi.on("error", (err) => {
+      console.error("Vapi Error:", err);
+      document.getElementById("status").textContent = "Error: " + err.message;
+    });
+
+    function start() {
+      vapi.start({ agentId: "2b57fa2b-5cc5-4a6a-b748-7f77136375f2" });
+    }
+
+    function stop() {
+      vapi.stop();
+    }
+  </script>
+</body>
+</html>
