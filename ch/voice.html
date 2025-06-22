@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Vapi Agent Test</title>
-  
+</head>
+
+<body>
+  <h1>Vapi Voice Agent Test</h1>
+  <button id="start">Start Call</button>
+  <p id="status">Status: Not started</p>
   <script type="module">
     import Vapi from "https://cdn.jsdelivr.net/npm/@vapi-ai/web/dist/index.mjs";
 
@@ -14,6 +20,7 @@
     const status = document.getElementById("status");
 
     document.getElementById("start").addEventListener("click", () => {
+      console.log("Starting the call")
       vapi.start({ agentId: "2b57fa2b-5cc5-4a6a-b748-7f77136375f2" });
       status.textContent = "Status: Call started";
     });
@@ -26,10 +33,6 @@
       }
     });
   </script>
-</head>
-<body>
-  <h1>Vapi Voice Agent Test</h1>
-  <button id="start">Start Call</button>
-  <p id="status">Status: Not started</p
 </body>
+
 </html>
